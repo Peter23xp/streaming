@@ -6,9 +6,26 @@ import Link from 'next/link'
 import type { TMDBMovie } from '@/types/tmdb'
 
 export default async function HomePage() {
-  const [trending, popularMovies, popularTV, nowPlaying] = await Promise.all([
+  const hasApiKey =
+    process.env.TMDB_API_KEY && process.env.TMDB_API_KEY !== 'REPLACE_ME'
+
+  if (!hasApiKey) {
+    return (
+      <div className="flex flex-col items-center justify-center py-24 gap-4 text-zinc-500">
+        <p className="text-lg">Configurez votre clé TMDB dans .env.local pour démarrer.</p>
+        <a
+          href="https://www.themoviedb.org/settings/api"
+          className="text-sm hover:underline"
+          style={{ color: '#e50914' }}
+        >
+          Obtenir une clé gratuite →
+        </a>
+      </div>
+    )
+  }
+
+  const [trending, popularTV, nowPlaying] = await Promise.all([
     getTrending('movie', 'week'),
-    getPopular('movie'),
     getPopular('tv'),
     getNowPlaying(),
   ])
