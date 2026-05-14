@@ -1,14 +1,11 @@
 'use client'
 import { useWatchlistStore, type WatchlistItem } from '@/store/watchlistStore'
-import { Plus, Check } from 'lucide-react'
-import { cn } from '@/lib/utils'
 
 interface Props {
   item: WatchlistItem
-  className?: string
 }
 
-export default function WatchlistButton({ item, className }: Props) {
+export default function WatchlistButton({ item }: Props) {
   const { has, add, remove } = useWatchlistStore()
   const inList = has(item.id, item.type)
 
@@ -20,15 +17,36 @@ export default function WatchlistButton({ item, className }: Props) {
   return (
     <button
       onClick={toggle}
-      className={cn(
-        'flex items-center gap-1.5 px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200',
-        inList
-          ? 'bg-zinc-600 hover:bg-zinc-500 text-white'
-          : 'bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-600',
-        className
-      )}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '8px',
+        padding: '7px 16px',
+        borderRadius: '2px',
+        fontSize: '11px',
+        fontWeight: 700,
+        letterSpacing: '0.1em',
+        textTransform: 'uppercase',
+        cursor: 'pointer',
+        transition: 'all 150ms',
+        border: inList
+          ? '1px solid rgba(212,175,55,0.4)'
+          : '1px solid rgba(212,175,55,0.25)',
+        backgroundColor: inList ? 'rgba(212,175,55,0.08)' : 'transparent',
+        color: inList ? '#d4af37' : '#666',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = 'rgba(212,175,55,0.6)'
+        e.currentTarget.style.color = '#d4af37'
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = inList
+          ? 'rgba(212,175,55,0.4)'
+          : 'rgba(212,175,55,0.25)'
+        e.currentTarget.style.color = inList ? '#d4af37' : '#666'
+      }}
     >
-      {inList ? <Check size={16} /> : <Plus size={16} />}
+      <span style={{ fontSize: '14px', lineHeight: 1 }}>{inList ? '✓' : '+'}</span>
       {inList ? 'Dans ma liste' : 'Ma liste'}
     </button>
   )

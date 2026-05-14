@@ -1,0 +1,139 @@
+<h2>Style des cartes film — Noir & Or</h2>
+<p class="subtitle">Comment les posters s'affichent dans la grille — choisis ton style de carte</p>
+
+<div class="cards">
+
+  <!-- Option A: Badge plateforme en bas + hover doré -->
+  <div class="card" data-choice="platform-badge" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#090909; padding:20px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+
+      <!-- Carte normale -->
+      <div style="width:100px; position:relative;">
+        <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#1a1200,#2a1f00,#111); border-radius:3px; border:1px solid rgba(212,175,55,0.12); position:relative; overflow:hidden;">
+          <!-- Poster simulé -->
+          <div style="position:absolute;inset:0;background:linear-gradient(160deg,#2a1500 0%,#0f0b00 60%,#000 100%);"></div>
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:6px;background:linear-gradient(to top,rgba(0,0,0,0.9),transparent);">
+            <div style="background:rgba(229,9,20,0.9);color:#fff;font-size:7px;font-weight:700;padding:2px 5px;border-radius:1px;display:inline-block;letter-spacing:0.5px;">N</div>
+          </div>
+          <div style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);color:#d4af37;font-size:7px;font-weight:700;padding:2px 4px;border-radius:1px;">★ 8.7</div>
+        </div>
+        <p style="color:#ccc;font-size:9px;margin-top:5px;letter-spacing:0.5px;font-weight:500;">OPPENHEIMER</p>
+        <p style="color:#555;font-size:8px;letter-spacing:0.5px;">2023</p>
+      </div>
+
+      <!-- Carte au hover (dorée) -->
+      <div style="width:100px; position:relative;">
+        <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#1a1200,#2a1f00,#111); border-radius:3px; border:1px solid rgba(212,175,55,0.6); position:relative; overflow:hidden; box-shadow:0 0 20px rgba(212,175,55,0.15), 0 0 0 1px rgba(212,175,55,0.3);">
+          <!-- Poster simulé + overlay hover -->
+          <div style="position:absolute;inset:0;background:linear-gradient(160deg,#2a1500 0%,#0f0b00 60%,#000 100%);"></div>
+          <div style="position:absolute;inset:0;background:rgba(0,0,0,0.55);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;">
+            <div style="width:28px;height:28px;border:1.5px solid #d4af37;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#d4af37;font-size:12px;">▶</div>
+            <span style="color:#d4af37;font-size:8px;letter-spacing:1px;">REGARDER</span>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:6px;background:linear-gradient(to top,rgba(0,0,0,0.9),transparent);">
+            <div style="background:rgba(229,9,20,0.9);color:#fff;font-size:7px;font-weight:700;padding:2px 5px;border-radius:1px;display:inline-block;letter-spacing:0.5px;">N</div>
+          </div>
+          <div style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);color:#d4af37;font-size:7px;font-weight:700;padding:2px 4px;border-radius:1px;">★ 8.7</div>
+        </div>
+        <p style="color:#d4af37;font-size:9px;margin-top:5px;letter-spacing:0.5px;font-weight:600;">OPPENHEIMER</p>
+        <p style="color:#888;font-size:8px;letter-spacing:0.5px;">2023</p>
+        <div style="font-size:8px;color:#555;letter-spacing:0.3px;margin-top:1px;">← hover</div>
+      </div>
+
+    </div>
+    <div class="card-body">
+      <h3>A — Badge plateforme + hover doré</h3>
+      <p>Logo plateforme coloré en bas du poster. Au hover : bordure dorée lumineuse + overlay sombre avec bouton lecture. Élégant, informatif.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Carte avec bande latérale couleur plateforme -->
+  <div class="card" data-choice="side-accent" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#090909; padding:20px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+
+      <!-- Carte Netflix -->
+      <div style="width:100px;">
+        <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#1a1200,#111); border-radius:3px; border:1px solid rgba(212,175,55,0.12); position:relative; overflow:hidden;">
+          <div style="position:absolute;inset:0;background:linear-gradient(160deg,#1a0800 0%,#0a0800 60%,#000 100%);"></div>
+          <!-- Bande gauche Netflix rouge -->
+          <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#e50914;"></div>
+          <div style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);color:#d4af37;font-size:7px;font-weight:700;padding:2px 4px;border-radius:1px;">★ 8.7</div>
+          <div style="position:absolute;bottom:4px;left:8px;color:#e50914;font-size:7px;font-weight:700;letter-spacing:1px;">NETFLIX</div>
+        </div>
+        <p style="color:#ccc;font-size:9px;margin-top:5px;letter-spacing:0.5px;">OPPENHEIMER</p>
+        <p style="color:#555;font-size:8px;">2023</p>
+      </div>
+
+      <!-- Carte Prime -->
+      <div style="width:100px;">
+        <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#0a1520,#111); border-radius:3px; border:1px solid rgba(212,175,55,0.12); position:relative; overflow:hidden;">
+          <div style="position:absolute;inset:0;background:linear-gradient(160deg,#001a2a 0%,#000d15 60%,#000 100%);"></div>
+          <!-- Bande gauche Prime bleue -->
+          <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#00a8e1;"></div>
+          <div style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);color:#d4af37;font-size:7px;font-weight:700;padding:2px 4px;border-radius:1px;">★ 7.9</div>
+          <div style="position:absolute;bottom:4px;left:8px;color:#00a8e1;font-size:7px;font-weight:700;letter-spacing:1px;">PRIME</div>
+        </div>
+        <p style="color:#ccc;font-size:9px;margin-top:5px;letter-spacing:0.5px;">THE BOYS</p>
+        <p style="color:#555;font-size:8px;">2024</p>
+      </div>
+
+    </div>
+    <div class="card-body">
+      <h3>B — Bande couleur plateforme</h3>
+      <p>Filet vertical gauche coloré selon la plateforme. Sobre, pas d'icône, juste la couleur signature. Le nom s'affiche en bas. Très propre.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Carte minimaliste avec info au-dessous uniquement -->
+  <div class="card" data-choice="below-info" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#090909; padding:20px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+
+      <!-- Carte normale -->
+      <div style="width:100px;">
+        <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#111,#0a0a0a); border-radius:3px; border:1px solid rgba(255,255,255,0.06); position:relative; overflow:hidden;">
+          <div style="position:absolute;inset:0;background:linear-gradient(160deg,#1a1200 0%,#0a0800 60%,#000 100%);"></div>
+          <!-- Aucun badge sur le poster — super clean -->
+        </div>
+        <div style="margin-top:6px;">
+          <p style="color:#ccc;font-size:9px;letter-spacing:0.5px;font-weight:500;">OPPENHEIMER</p>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:2px;">
+            <p style="color:#555;font-size:8px;">2023 · 3h</p>
+            <div style="width:14px;height:14px;background:#e50914;border-radius:2px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:7px;font-weight:900;">N</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:3px;margin-top:2px;">
+            <span style="color:#d4af37;font-size:8px;">★</span>
+            <span style="color:#888;font-size:8px;">8.7</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carte hover -->
+      <div style="width:100px;">
+        <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#111,#0a0a0a); border-radius:3px; border:1px solid rgba(212,175,55,0.4); position:relative; overflow:hidden; box-shadow:0 4px 20px rgba(212,175,55,0.1);">
+          <div style="position:absolute;inset:0;background:linear-gradient(160deg,#1a1200 0%,#0a0800 60%,#000 100%);"></div>
+          <div style="position:absolute;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;">
+            <div style="border:1.5px solid #d4af37;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;color:#d4af37;font-size:13px;">▶</div>
+          </div>
+        </div>
+        <div style="margin-top:6px;">
+          <p style="color:#d4af37;font-size:9px;letter-spacing:0.5px;font-weight:600;">OPPENHEIMER</p>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:2px;">
+            <p style="color:#666;font-size:8px;">2023 · 3h</p>
+            <div style="width:14px;height:14px;background:#e50914;border-radius:2px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:7px;font-weight:900;">N</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:3px;margin-top:2px;">
+            <span style="color:#d4af37;font-size:8px;">★</span>
+            <span style="color:#d4af37;font-size:8px;font-weight:600;">8.7</span>
+          </div>
+        </div>
+        <div style="font-size:8px;color:#555;letter-spacing:0.3px;margin-top:1px;">← hover</div>
+      </div>
+
+    </div>
+    <div class="card-body">
+      <h3>C — Poster pur + méta en dessous</h3>
+      <p>Poster sans badge superposé, très clean. Le logo plateforme (petit carré coloré) apparaît dans les infos texte sous le poster. Au hover : bordure dorée + bouton play. Le plus premium et épuré.</p>
+    </div>
+  </div>
+
+</div>

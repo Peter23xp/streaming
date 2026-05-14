@@ -1,8 +1,6 @@
 import { getMovieDetail } from '@/lib/tmdb'
 import { formatRuntime, isVF, slugify } from '@/lib/utils'
 import Image from 'next/image'
-import Badge from '@/components/ui/Badge'
-import StarRating from '@/components/ui/StarRating'
 import WatchlistButton from '@/components/ui/WatchlistButton'
 import VidSrcPlayer from '@/components/media/VidSrcPlayer'
 import CastRow from '@/components/media/CastRow'
@@ -34,82 +32,183 @@ export default async function FilmDetailPage({ params }: Props) {
   const movie = await getMovieDetail(parseInt(id))
   if (!movie?.id) notFound()
 
-  const genreNames = movie.genres?.map((g) => g.name).join(', ') ?? ''
+  const genreNames = movie.genres?.map((g) => g.name).join(' · ') ?? ''
   const backdrop = movie.backdrop_path
     ? `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`
     : null
   const poster = movie.poster_path
     ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
     : null
+  const vfLabel = isVF(movie.original_language) ? 'VF' : 'VOSTFR'
+  const rating = movie.vote_average ? movie.vote_average.toFixed(1) : null
 
   return (
-    <div className="space-y-8">
-      {/* Hero backdrop */}
-      <div className="relative -mx-4 -mt-6 overflow-hidden" style={{ height: 280 }}>
-        {backdrop && (
-          <Image src={backdrop} alt={movie.title} fill className="object-cover" priority sizes="100vw" />
-        )}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'linear-gradient(to top, #0f0f0f 0%, rgba(15,15,15,0.6) 50%, transparent 100%)',
-          }}
+    <div style={{ marginTop: '-24px' }}>
+      {/* Player full width — flush with edges */}
+      <div className="-mx-4">
+        <VidSrcPlayer
+          type="movie"
+          tmdbId={movie.id}
+          backdrop={backdrop}
+          title={movie.title}
         />
       </div>
 
-      {/* Info section */}
-      <div className="flex flex-col md:flex-row gap-6 -mt-32 relative z-10">
-        {poster && (
-          <div className="flex-none w-32 md:w-48">
-            <Image
-              src={poster}
-              alt={movie.title}
-              width={192}
-              height={288}
-              className="rounded-lg shadow-xl"
+      {/* Info below player */}
+      <div className="px-0 pt-6 space-y-6">
+
+        {/* Top row: poster + metadata */}
+        <div className="flex gap-5 items-start">
+          {/* Poster */}
+          {poster && (
+            <div className="flex-none hidden sm:block" style={{ width: '100px' }}>
+              <div
+                style={{
+                  position: 'relative',
+                  aspectRatio: '2/3',
+                  borderRadius: '2px',
+                  overflow: 'hidden',
+                  border: '1px solid rgba(212,175,55,0.2)',
+                }}
+              >
+                <Image src={poster} alt={movie.title} fill className="object-cover" sizes="100px" />
+                {/* Platform accent */}
+                <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '3px', backgroundColor: '#d4af37' }} />
+              </div>
+            </div>
+          )}
+
+          {/* Meta */}
+          <div className="flex-1 space-y-3">
+            <h1
+              style={{
+                color: '#ffffff',
+                fontSize: '22px',
+                fontWeight: 800,
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+                lineHeight: 1.1,
+              }}
+            >
+              {movie.title}
+            </h1>
+
+            {/* Badges row */}
+            <div className="flex flex-wrap items-center gap-2">
+              {rating && (
+                <span
+                  style={{
+                    backgroundColor: 'rgba(212,175,55,0.1)',
+                    border: '1px solid rgba(212,175,55,0.3)',
+                    color: '#d4af37',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    padding: '3px 8px',
+                    borderRadius: '2px',
+                    letterSpacing: '0.05em',
+                  }}
+                >
+                  ★ {rating}
+                </span>
+              )}
+              <span
+                style={{
+                  border: '1px solid rgba(212,175,55,0.2)',
+                  color: '#d4af37',
+                  fontSize: '10px',
+                  fontWeight: 700,
+                  padding: '3px 8px',
+                  borderRadius: '2px',
+                  letterSpacing: '0.08em',
+                }}
+              >
+                {vfLabel}
+              </span>
+              <span
+                style={{
+                  border: '1px solid rgba(212,175,55,0.2)',
+                  color: '#888',
+                  fontSize: '10px',
+                  padding: '3px 8px',
+                  borderRadius: '2px',
+                  letterSpacing: '0.05em',
+                }}
+              >
+                HD
+              </span>
+              {movie.release_date && (
+                <span style={{ color: '#555', fontSize: '11px', letterSpacing: '0.05em' }}>
+                  {movie.release_date.slice(0, 4)}
+                </span>
+              )}
+              {movie.runtime ? (
+                <span style={{ color: '#555', fontSize: '11px', letterSpacing: '0.05em' }}>
+                  {formatRuntime(movie.runtime)}
+                </span>
+              ) : null}
+            </div>
+
+            {/* Genres */}
+            {genreNames && (
+              <p style={{ color: '#555', fontSize: '11px', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                {genreNames}
+              </p>
+            )}
+
+            {/* Synopsis */}
+            {movie.overview && (
+              <p
+                style={{
+                  color: '#999',
+                  fontSize: '13px',
+                  lineHeight: 1.7,
+                  maxWidth: '680px',
+                }}
+              >
+                {movie.overview}
+              </p>
+            )}
+
+            {/* Watchlist */}
+            <WatchlistButton
+              item={{
+                id: movie.id,
+                type: 'movie',
+                title: movie.title,
+                poster: movie.poster_path,
+                year: movie.release_date?.slice(0, 4) ?? '',
+              }}
             />
           </div>
-        )}
-        <div className="space-y-3 flex-1">
-          <h1 className="text-2xl md:text-3xl font-bold">{movie.title}</h1>
-          <div className="flex flex-wrap items-center gap-2 text-sm text-zinc-400">
-            <StarRating value={movie.vote_average} />
-            <span>{movie.release_date?.slice(0, 4)}</span>
-            {movie.runtime ? <span>{formatRuntime(movie.runtime)}</span> : null}
-            {genreNames ? <span>{genreNames}</span> : null}
-          </div>
-          <div className="flex gap-2">
-            <Badge variant={isVF(movie.original_language) ? 'vf' : 'vostfr'} />
-            <Badge variant="hd" />
-          </div>
-          {movie.overview && (
-            <p className="text-zinc-300 text-sm leading-relaxed max-w-2xl">{movie.overview}</p>
-          )}
-          <WatchlistButton
-            item={{
-              id: movie.id,
-              type: 'movie',
-              title: movie.title,
-              poster: movie.poster_path,
-              year: movie.release_date?.slice(0, 4) ?? '',
-            }}
-          />
         </div>
+
+        {/* Divider */}
+        <div style={{ height: '1px', backgroundColor: 'rgba(212,175,55,0.08)' }} />
+
+        {/* Cast */}
+        {movie.credits?.cast?.length ? <CastRow cast={movie.credits.cast} /> : null}
+
+        {/* Similar films */}
+        {movie.similar?.results?.length ? (
+          <section className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div style={{ width: '2px', height: '14px', backgroundColor: '#d4af37' }} />
+              <h2
+                style={{
+                  color: '#cccccc',
+                  fontSize: '11px',
+                  fontWeight: 700,
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                FILMS SIMILAIRES
+              </h2>
+            </div>
+            <MediaGrid items={movie.similar.results.slice(0, 6)} type="movie" />
+          </section>
+        ) : null}
       </div>
-
-      {/* Player */}
-      <VidSrcPlayer type="movie" tmdbId={movie.id} />
-
-      {/* Cast */}
-      {movie.credits?.cast?.length ? <CastRow cast={movie.credits.cast} /> : null}
-
-      {/* Similar */}
-      {movie.similar?.results?.length ? (
-        <section className="space-y-3">
-          <h2 className="text-lg font-semibold">Films similaires</h2>
-          <MediaGrid items={movie.similar.results.slice(0, 6)} type="movie" />
-        </section>
-      ) : null}
     </div>
   )
 }

@@ -15,7 +15,8 @@
       "Bash(node -e \"const na = require\\('next-auth'\\); console.log\\('ok'\\)\")",
       "Bash(npx tsc *)",
       "Bash(npm run *)",
-      "Bash(node -e \"const {PrismaClient} = require\\('@prisma/client'\\); const c = new PrismaClient\\(\\); console.log\\(Object.keys\\(c\\)\\)\")"
+      "Bash(node -e \"const {PrismaClient} = require\\('@prisma/client'\\); const c = new PrismaClient\\(\\); console.log\\(Object.keys\\(c\\)\\)\")",
+      "Bash(bash *)"
     ]
   }
 }

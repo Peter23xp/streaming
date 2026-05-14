@@ -1,0 +1,180 @@
+<h2>Section Hero — page d'accueil</h2>
+<p class="subtitle">Comment accueillir l'utilisateur sur la homepage ?</p>
+
+<div class="cards">
+
+  <!-- Option A: Grand hero cinématique pleine largeur -->
+  <div class="card" data-choice="full-hero" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#080808; padding:0; overflow:hidden; min-height:220px; position:relative;">
+      <!-- Navbar -->
+      <div style="background:rgba(8,8,8,0.9); border-bottom:1px solid rgba(212,175,55,0.15); padding:9px 16px; display:flex; align-items:center; gap:14px; position:relative; z-index:2;">
+        <span style="font-weight:800; letter-spacing:3px; color:#d4af37; font-size:12px;">STREAMVF</span>
+        <span style="color:#666; font-size:9px; margin-left:auto; letter-spacing:1px;">FILMS</span>
+        <span style="color:#666; font-size:9px; letter-spacing:1px;">SÉRIES</span>
+        <span style="color:#555; font-size:9px; letter-spacing:0.5px;">🔍</span>
+      </div>
+      <!-- Platform sticky bar -->
+      <div style="background:rgba(8,8,8,0.95); border-bottom:1px solid rgba(212,175,55,0.08); padding:6px 16px; display:flex; gap:6px; position:relative; z-index:2;">
+        <span style="background:#d4af37; color:#000; font-size:8px; padding:2px 8px; border-radius:1px; font-weight:700; letter-spacing:0.5px;">TOUT</span>
+        <span style="border:1px solid rgba(212,175,55,0.2); color:#666; font-size:8px; padding:2px 8px; border-radius:1px; letter-spacing:0.5px;">NETFLIX</span>
+        <span style="border:1px solid rgba(212,175,55,0.2); color:#666; font-size:8px; padding:2px 8px; border-radius:1px; letter-spacing:0.5px;">PRIME</span>
+        <span style="border:1px solid rgba(212,175,55,0.2); color:#666; font-size:8px; padding:2px 8px; border-radius:1px; letter-spacing:0.5px;">DISNEY+</span>
+      </div>
+      <!-- Hero cinématique -->
+      <div style="position:relative; height:130px; background:linear-gradient(105deg, #1a0e00 0%, #0d0800 40%, #080808 100%); overflow:hidden;">
+        <!-- Gradient overlay gauche -->
+        <div style="position:absolute; left:0; top:0; bottom:0; width:60%; background:linear-gradient(to right, rgba(8,8,8,0.95) 0%, transparent 100%); z-index:1;"></div>
+        <!-- Faux poster flou en fond -->
+        <div style="position:absolute; right:0; top:0; bottom:0; width:55%; background:linear-gradient(145deg,#2a1500,#1a0f00,#0a0800); opacity:0.6;"></div>
+        <!-- Contenu hero -->
+        <div style="position:absolute; left:16px; top:50%; transform:translateY(-50%); z-index:2;">
+          <div style="color:#d4af37; font-size:8px; letter-spacing:2px; margin-bottom:5px;">TENDANCE · NETFLIX</div>
+          <div style="color:#fff; font-weight:800; font-size:16px; letter-spacing:2px; line-height:1.1; margin-bottom:5px;">OPPENHEIMER</div>
+          <div style="color:#888; font-size:8px; letter-spacing:0.5px; margin-bottom:8px;">2023 · 3h · Drame, Histoire</div>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <div style="background:#d4af37; color:#000; font-size:8px; padding:4px 10px; font-weight:700; letter-spacing:1px; border-radius:1px;">▶ REGARDER</div>
+            <div style="border:1px solid rgba(212,175,55,0.4); color:#d4af37; font-size:8px; padding:4px 10px; letter-spacing:1px; border-radius:1px;">+ LISTE</div>
+          </div>
+        </div>
+        <!-- Note score -->
+        <div style="position:absolute; right:16px; bottom:10px; z-index:2; text-align:right;">
+          <div style="color:#d4af37; font-size:14px; font-weight:700;">★ 8.7</div>
+          <div style="color:#555; font-size:7px; letter-spacing:1px;">IMDb</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Hero cinématique pleine largeur</h3>
+      <p>Un film mis en avant avec backdrop flou, titre imposant, CTA doré. Netflix-style mais sobre. Impressionnant à l'arrivée, change au rechargement.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Pas de hero — direct carousels -->
+  <div class="card" data-choice="no-hero" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#080808; padding:0; overflow:hidden; min-height:220px;">
+      <!-- Navbar -->
+      <div style="background:rgba(8,8,8,0.9); border-bottom:1px solid rgba(212,175,55,0.15); padding:9px 16px; display:flex; align-items:center; gap:14px;">
+        <span style="font-weight:800; letter-spacing:3px; color:#d4af37; font-size:12px;">STREAMVF</span>
+        <span style="color:#666; font-size:9px; margin-left:auto; letter-spacing:1px;">FILMS</span>
+        <span style="color:#666; font-size:9px; letter-spacing:1px;">SÉRIES</span>
+        <span style="color:#555; font-size:9px; letter-spacing:0.5px;">🔍</span>
+      </div>
+      <!-- Platform sticky bar -->
+      <div style="background:rgba(8,8,8,0.95); border-bottom:1px solid rgba(212,175,55,0.08); padding:6px 16px; display:flex; gap:6px;">
+        <span style="background:#d4af37; color:#000; font-size:8px; padding:2px 8px; border-radius:1px; font-weight:700; letter-spacing:0.5px;">TOUT</span>
+        <span style="border:1px solid rgba(212,175,55,0.2); color:#666; font-size:8px; padding:2px 8px; border-radius:1px; letter-spacing:0.5px;">NETFLIX</span>
+        <span style="border:1px solid rgba(212,175,55,0.2); color:#666; font-size:8px; padding:2px 8px; border-radius:1px; letter-spacing:0.5px;">PRIME</span>
+        <span style="border:1px solid rgba(212,175,55,0.2); color:#666; font-size:8px; padding:2px 8px; border-radius:1px; letter-spacing:0.5px;">DISNEY+</span>
+      </div>
+      <!-- Section label + caroussel direct -->
+      <div style="padding:12px 16px 8px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <div style="width:2px; height:14px; background:#d4af37;"></div>
+          <span style="color:#ccc; font-size:9px; font-weight:600; letter-spacing:2px;">TENDANCES</span>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:6px;">
+          <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#1a0800,#0a0500); border-radius:2px; border:1px solid rgba(212,175,55,0.08); position:relative; overflow:hidden;">
+            <div style="position:absolute;left:0;top:0;bottom:0;width:2px;background:#e50914;"></div>
+          </div>
+          <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#001020,#000a15); border-radius:2px; border:1px solid rgba(212,175,55,0.08); position:relative; overflow:hidden;">
+            <div style="position:absolute;left:0;top:0;bottom:0;width:2px;background:#00a8e1;"></div>
+          </div>
+          <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#100015,#080010); border-radius:2px; border:1px solid rgba(212,175,55,0.08); position:relative; overflow:hidden;">
+            <div style="position:absolute;left:0;top:0;bottom:0;width:2px;background:#1183cf;"></div>
+          </div>
+          <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#1a1200,#0f0d00); border-radius:2px; border:1px solid rgba(212,175,55,0.08); position:relative; overflow:hidden;">
+            <div style="position:absolute;left:0;top:0;bottom:0;width:2px;background:#e50914;"></div>
+          </div>
+          <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#0a1a00,#060f00); border-radius:2px; border:1px solid rgba(212,175,55,0.08); position:relative; overflow:hidden;">
+            <div style="position:absolute;left:0;top:0;bottom:0;width:2px;background:#1db954;"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Deuxième carousel label -->
+      <div style="padding:4px 16px 8px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <div style="width:2px; height:14px; background:#d4af37;"></div>
+          <span style="color:#ccc; font-size:9px; font-weight:600; letter-spacing:2px;">NOUVEAUTÉS NETFLIX</span>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:6px;">
+          <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#150800,#0a0400); border-radius:2px; border:1px solid rgba(212,175,55,0.08); position:relative; overflow:hidden;">
+            <div style="position:absolute;left:0;top:0;bottom:0;width:2px;background:#e50914;"></div>
+          </div>
+          <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#1a0800,#0d0500); border-radius:2px; border:1px solid rgba(212,175,55,0.08); position:relative; overflow:hidden;">
+            <div style="position:absolute;left:0;top:0;bottom:0;width:2px;background:#e50914;"></div>
+          </div>
+          <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#0f0800,#080500); border-radius:2px; border:1px solid rgba(212,175,55,0.08); position:relative; overflow:hidden;">
+            <div style="position:absolute;left:0;top:0;bottom:0;width:2px;background:#e50914;"></div>
+          </div>
+          <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#150a00,#0a0600); border-radius:2px; border:1px solid rgba(212,175,55,0.08); position:relative; overflow:hidden;">
+            <div style="position:absolute;left:0;top:0;bottom:0;width:2px;background:#e50914;"></div>
+          </div>
+          <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#111100,#080800); border-radius:2px; border:1px solid rgba(212,175,55,0.08); position:relative; overflow:hidden;">
+            <div style="position:absolute;left:0;top:0;bottom:0;width:2px;background:#e50914;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Pas de hero — carousels directs</h3>
+      <p>On attaque direct avec les carousels de films. Plus dense, plus efficace. L'utilisateur voit 2x plus de contenu au-dessus de la ligne de flottaison. Style Letterboxd.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Hero compact + stats -->
+  <div class="card" data-choice="compact-hero" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#080808; padding:0; overflow:hidden; min-height:220px;">
+      <!-- Navbar -->
+      <div style="background:rgba(8,8,8,0.9); border-bottom:1px solid rgba(212,175,55,0.15); padding:9px 16px; display:flex; align-items:center; gap:14px;">
+        <span style="font-weight:800; letter-spacing:3px; color:#d4af37; font-size:12px;">STREAMVF</span>
+        <span style="color:#666; font-size:9px; margin-left:auto; letter-spacing:1px;">FILMS</span>
+        <span style="color:#666; font-size:9px; letter-spacing:1px;">SÉRIES</span>
+        <span style="color:#555; font-size:9px; letter-spacing:0.5px;">🔍</span>
+      </div>
+      <!-- Platform sticky bar -->
+      <div style="background:rgba(8,8,8,0.95); border-bottom:1px solid rgba(212,175,55,0.08); padding:6px 16px; display:flex; gap:6px;">
+        <span style="background:#d4af37; color:#000; font-size:8px; padding:2px 8px; border-radius:1px; font-weight:700; letter-spacing:0.5px;">TOUT</span>
+        <span style="border:1px solid rgba(212,175,55,0.2); color:#666; font-size:8px; padding:2px 8px; border-radius:1px; letter-spacing:0.5px;">NETFLIX</span>
+        <span style="border:1px solid rgba(212,175,55,0.2); color:#666; font-size:8px; padding:2px 8px; border-radius:1px; letter-spacing:0.5px;">PRIME</span>
+        <span style="border:1px solid rgba(212,175,55,0.2); color:#666; font-size:8px; padding:2px 8px; border-radius:1px; letter-spacing:0.5px;">DISNEY+</span>
+      </div>
+      <!-- Hero compact horizontal -->
+      <div style="padding:10px 16px; border-bottom:1px solid rgba(212,175,55,0.06); display:flex; align-items:center; gap:12px; background:linear-gradient(to right, rgba(212,175,55,0.03), transparent);">
+        <div style="width:44px; height:66px; background:linear-gradient(145deg,#2a1500,#d4af37); border-radius:2px; flex-shrink:0; border-left:2px solid #e50914;"></div>
+        <div style="flex:1;">
+          <div style="color:#555; font-size:7px; letter-spacing:2px; margin-bottom:3px;">FILM DU MOMENT</div>
+          <div style="color:#fff; font-weight:700; font-size:12px; letter-spacing:2px;">OPPENHEIMER</div>
+          <div style="color:#777; font-size:8px; margin-top:2px;">2023 · 3h · Drame</div>
+          <div style="display:flex; gap:4px; margin-top:5px;">
+            <div style="background:#d4af37; color:#000; font-size:7px; padding:3px 8px; font-weight:700; letter-spacing:0.5px; border-radius:1px;">▶ REGARDER</div>
+            <div style="border:1px solid rgba(212,175,55,0.3); color:#888; font-size:7px; padding:3px 8px; border-radius:1px;">+ LISTE</div>
+          </div>
+        </div>
+        <div style="text-align:right; flex-shrink:0;">
+          <div style="color:#d4af37; font-size:16px; font-weight:700;">8.7</div>
+          <div style="color:#d4af37; font-size:9px;">★★★★</div>
+          <div style="color:#555; font-size:7px; letter-spacing:0.5px; margin-top:1px;">IMDb</div>
+        </div>
+      </div>
+      <!-- Carousel -->
+      <div style="padding:10px 16px 8px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+          <div style="width:2px; height:12px; background:#d4af37;"></div>
+          <span style="color:#ccc; font-size:9px; font-weight:600; letter-spacing:2px;">TENDANCES</span>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:6px;">
+          <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#1a0800,#0a0500); border-radius:2px; border:1px solid rgba(212,175,55,0.08); position:relative; overflow:hidden;"><div style="position:absolute;left:0;top:0;bottom:0;width:2px;background:#e50914;"></div></div>
+          <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#001020,#000a15); border-radius:2px; border:1px solid rgba(212,175,55,0.08); position:relative; overflow:hidden;"><div style="position:absolute;left:0;top:0;bottom:0;width:2px;background:#00a8e1;"></div></div>
+          <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#100015,#080010); border-radius:2px; border:1px solid rgba(212,175,55,0.08); position:relative; overflow:hidden;"><div style="position:absolute;left:0;top:0;bottom:0;width:2px;background:#1183cf;"></div></div>
+          <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#1a1200,#0f0d00); border-radius:2px; border:1px solid rgba(212,175,55,0.08); position:relative; overflow:hidden;"><div style="position:absolute;left:0;top:0;bottom:0;width:2px;background:#e50914;"></div></div>
+          <div style="aspect-ratio:2/3; background:linear-gradient(145deg,#0a1a00,#060f00); border-radius:2px; border:1px solid rgba(212,175,55,0.08); position:relative; overflow:hidden;"><div style="position:absolute;left:0;top:0;bottom:0;width:2px;background:#1db954;"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Hero compact horizontal</h3>
+      <p>Un bandeau horizontal discret avec poster + infos + CTA. Présence du hero sans sacrifier de l'espace vertical. Le contenu reste au premier plan. Compromis élégant.</p>
+    </div>
+  </div>
+
+</div>

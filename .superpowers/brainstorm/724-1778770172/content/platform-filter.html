@@ -1,0 +1,136 @@
+<h2>Comment afficher le filtre Plateformes ?</h2>
+<p class="subtitle">Dans l'esprit Noir & Or — où et comment les plateformes apparaissent-elles ?</p>
+
+<div class="cards">
+
+  <!-- Option A: Barre horizontale sticky sous la navbar -->
+  <div class="card" data-choice="sticky-bar" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#080808; padding:0; overflow:hidden; min-height:200px;">
+      <!-- Navbar -->
+      <div style="background:#080808; border-bottom:1px solid rgba(212,175,55,0.15); padding:10px 16px; display:flex; align-items:center; gap:14px;">
+        <span style="font-weight:800; letter-spacing:3px; color:#d4af37; font-size:13px;">STREAMVF</span>
+        <span style="color:#666; font-size:10px; margin-left:auto; letter-spacing:1px;">FILMS</span>
+        <span style="color:#666; font-size:10px; letter-spacing:1px;">SÉRIES</span>
+        <span style="color:#666; font-size:10px; letter-spacing:1px;">🔍</span>
+      </div>
+      <!-- Barre plateformes sticky -->
+      <div style="background:rgba(10,10,10,0.95); border-bottom:1px solid rgba(212,175,55,0.1); padding:8px 16px; display:flex; gap:8px; overflow:hidden;">
+        <span style="background:#d4af37; color:#000; font-size:9px; padding:3px 10px; border-radius:2px; font-weight:700; letter-spacing:1px;">TOUT</span>
+        <span style="border:1px solid rgba(212,175,55,0.25); color:#888; font-size:9px; padding:3px 10px; border-radius:2px; letter-spacing:1px;">NETFLIX</span>
+        <span style="border:1px solid rgba(212,175,55,0.25); color:#888; font-size:9px; padding:3px 10px; border-radius:2px; letter-spacing:1px;">PRIME</span>
+        <span style="border:1px solid rgba(212,175,55,0.25); color:#888; font-size:9px; padding:3px 10px; border-radius:2px; letter-spacing:1px;">DISNEY+</span>
+        <span style="border:1px solid rgba(212,175,55,0.25); color:#888; font-size:9px; padding:3px 10px; border-radius:2px; letter-spacing:1px;">APPLE TV+</span>
+        <span style="border:1px solid rgba(212,175,55,0.25); color:#888; font-size:9px; padding:3px 10px; border-radius:2px; letter-spacing:1px;">MAX</span>
+      </div>
+      <!-- Grille de cartes -->
+      <div style="padding:12px 16px; display:grid; grid-template-columns:repeat(4,1fr); gap:8px;">
+        <div style="background:#111; border-radius:3px; aspect-ratio:2/3; border:1px solid rgba(212,175,55,0.08);"></div>
+        <div style="background:#111; border-radius:3px; aspect-ratio:2/3; border:1px solid rgba(212,175,55,0.08);"></div>
+        <div style="background:#111; border-radius:3px; aspect-ratio:2/3; border:1px solid rgba(212,175,55,0.08);"></div>
+        <div style="background:#111; border-radius:3px; aspect-ratio:2/3; border:1px solid rgba(212,175,55,0.08);"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Barre sticky sous la navbar</h3>
+      <p>Toujours visible, filtrage instantané sans quitter la page. Scrolle avec le contenu ou reste fixée. La plus rapide à utiliser.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Section dédiée en homepage + filtre dans grille -->
+  <div class="card" data-choice="homepage-section" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#080808; padding:0; overflow:hidden; min-height:200px;">
+      <!-- Navbar -->
+      <div style="background:#080808; border-bottom:1px solid rgba(212,175,55,0.15); padding:10px 16px; display:flex; align-items:center; gap:14px;">
+        <span style="font-weight:800; letter-spacing:3px; color:#d4af37; font-size:13px;">STREAMVF</span>
+        <span style="color:#666; font-size:10px; margin-left:auto; letter-spacing:1px;">FILMS</span>
+        <span style="color:#666; font-size:10px; letter-spacing:1px;">SÉRIES</span>
+        <span style="color:#d4af37; font-size:10px; letter-spacing:1px;">PLATEFORMES</span>
+      </div>
+      <!-- Section plateformes homepage -->
+      <div style="padding:12px 16px;">
+        <div style="color:#666; font-size:9px; letter-spacing:2px; margin-bottom:8px;">PAR PLATEFORME</div>
+        <div style="display:flex; gap:8px;">
+          <div style="background:rgba(229,9,20,0.1); border:1px solid rgba(229,9,20,0.3); border-radius:6px; padding:8px 12px; text-align:center; min-width:50px;">
+            <div style="color:#e50914; font-size:14px; font-weight:900; margin-bottom:2px;">N</div>
+            <div style="color:#666; font-size:8px; letter-spacing:1px;">NETFLIX</div>
+          </div>
+          <div style="background:rgba(0,168,225,0.08); border:1px solid rgba(0,168,225,0.2); border-radius:6px; padding:8px 12px; text-align:center; min-width:50px;">
+            <div style="color:#00a8e1; font-size:14px; font-weight:900; margin-bottom:2px;">P</div>
+            <div style="color:#666; font-size:8px; letter-spacing:1px;">PRIME</div>
+          </div>
+          <div style="background:rgba(17,131,207,0.08); border:1px solid rgba(17,131,207,0.2); border-radius:6px; padding:8px 12px; text-align:center; min-width:50px;">
+            <div style="color:#1183cf; font-size:14px; font-weight:900; margin-bottom:2px;">D+</div>
+            <div style="color:#666; font-size:8px; letter-spacing:1px;">DISNEY+</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:8px 12px; text-align:center; min-width:50px;">
+            <div style="color:#ccc; font-size:14px; margin-bottom:2px;">🍎</div>
+            <div style="color:#666; font-size:8px; letter-spacing:1px;">APPLE TV</div>
+          </div>
+        </div>
+      </div>
+      <!-- Puis grille normale -->
+      <div style="padding:0 16px 12px; display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:4px;">
+        <div style="background:#111; border-radius:3px; aspect-ratio:2/3; border:1px solid rgba(212,175,55,0.08);"></div>
+        <div style="background:#111; border-radius:3px; aspect-ratio:2/3; border:1px solid rgba(212,175,55,0.08);"></div>
+        <div style="background:#111; border-radius:3px; aspect-ratio:2/3; border:1px solid rgba(212,175,55,0.08);"></div>
+        <div style="background:#111; border-radius:3px; aspect-ratio:2/3; border:1px solid rgba(212,175,55,0.08);"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Section dédiée en homepage</h3>
+      <p>Les plateformes ont leur propre bloc visuel sur la page d'accueil avec icônes couleur. Chaque plateforme = une page dédiée avec son catalogue.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Dropdown dans la navbar -->
+  <div class="card" data-choice="nav-dropdown" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#080808; padding:0; overflow:hidden; min-height:200px;">
+      <!-- Navbar avec dropdown ouvert -->
+      <div style="background:#080808; border-bottom:1px solid rgba(212,175,55,0.15); padding:10px 16px; display:flex; align-items:center; gap:14px; position:relative;">
+        <span style="font-weight:800; letter-spacing:3px; color:#d4af37; font-size:13px;">STREAMVF</span>
+        <span style="color:#666; font-size:10px; margin-left:auto; letter-spacing:1px;">FILMS</span>
+        <span style="color:#666; font-size:10px; letter-spacing:1px;">SÉRIES</span>
+        <span style="color:#d4af37; font-size:10px; letter-spacing:1px; border-bottom:1px solid #d4af37;">PLATEFORMES ▾</span>
+      </div>
+      <!-- Dropdown panel -->
+      <div style="background:#0f0f0f; border:1px solid rgba(212,175,55,0.2); margin:0 16px; border-top:2px solid #d4af37; border-radius:0 0 6px 6px; padding:12px; display:grid; grid-template-columns:repeat(3,1fr); gap:8px;">
+        <div style="display:flex; align-items:center; gap:8px; padding:6px; border:1px solid rgba(212,175,55,0.15); border-radius:3px;">
+          <div style="width:24px; height:24px; background:#e50914; border-radius:4px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:900; flex-shrink:0;">N</div>
+          <span style="color:#ccc; font-size:9px; letter-spacing:1px;">NETFLIX</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; padding:6px; border:1px solid rgba(212,175,55,0.15); border-radius:3px;">
+          <div style="width:24px; height:24px; background:#00a8e1; border-radius:4px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:900; flex-shrink:0;">P</div>
+          <span style="color:#ccc; font-size:9px; letter-spacing:1px;">PRIME</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; padding:6px; border:1px solid rgba(212,175,55,0.15); border-radius:3px;">
+          <div style="width:24px; height:24px; background:#1183cf; border-radius:4px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:900; flex-shrink:0;">D</div>
+          <span style="color:#ccc; font-size:9px; letter-spacing:1px;">DISNEY+</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; padding:6px; border:1px solid rgba(212,175,55,0.15); border-radius:3px;">
+          <div style="width:24px; height:24px; background:#333; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0;">🍎</div>
+          <span style="color:#ccc; font-size:9px; letter-spacing:1px;">APPLE TV+</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; padding:6px; border:1px solid rgba(212,175,55,0.15); border-radius:3px;">
+          <div style="width:24px; height:24px; background:#002be7; border-radius:4px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:900; flex-shrink:0;">M</div>
+          <span style="color:#ccc; font-size:9px; letter-spacing:1px;">MAX</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; padding:6px; border:1px solid rgba(212,175,55,0.15); border-radius:3px;">
+          <div style="width:24px; height:24px; background:#1db954; border-radius:4px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:900; flex-shrink:0;">C</div>
+          <span style="color:#ccc; font-size:9px; letter-spacing:1px;">CANAL+</span>
+        </div>
+      </div>
+      <!-- Fond -->
+      <div style="padding:12px 16px; display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:4px;">
+        <div style="background:#111; border-radius:3px; aspect-ratio:2/3; border:1px solid rgba(212,175,55,0.08);"></div>
+        <div style="background:#111; border-radius:3px; aspect-ratio:2/3; border:1px solid rgba(212,175,55,0.08);"></div>
+        <div style="background:#111; border-radius:3px; aspect-ratio:2/3; border:1px solid rgba(212,175,55,0.08);"></div>
+        <div style="background:#111; border-radius:3px; aspect-ratio:2/3; border:1px solid rgba(212,175,55,0.08);"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Méga-menu navbar</h3>
+      <p>Un dropdown riche depuis la navbar avec toutes les plateformes en grille. Élégant, discret jusqu'à l'ouverture. Chaque plateforme = page dédiée.</p>
+    </div>
+  </div>
+
+</div>

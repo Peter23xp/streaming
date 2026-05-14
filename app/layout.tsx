@@ -2,7 +2,9 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/layout/Navbar'
+import PlatformBar from '@/components/layout/PlatformBar'
 import Footer from '@/components/layout/Footer'
+import { Suspense } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,9 +26,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="fr">
       <body
         className={inter.className}
-        style={{ backgroundColor: '#0f0f0f', color: '#ffffff', minHeight: '100vh' }}
+        style={{ backgroundColor: '#080808', color: '#cccccc', minHeight: '100vh' }}
       >
         <Navbar />
+        <Suspense>
+          <PlatformBar />
+        </Suspense>
         <main className="max-w-7xl mx-auto px-4 py-6">{children}</main>
         <Footer />
       </body>

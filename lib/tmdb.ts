@@ -126,3 +126,35 @@ export async function getGenres(
   const res = await fetch(url(`/genre/${type}/list`), CACHE)
   return res.json()
 }
+
+export async function discoverMoviesByProvider(
+  providerId: number,
+  page = 1
+): Promise<TMDBPaginatedResponse<TMDBMovie>> {
+  const res = await fetch(
+    url('/discover/movie', {
+      with_watch_providers: providerId,
+      watch_region: 'FR',
+      sort_by: 'popularity.desc',
+      page,
+    }),
+    CACHE
+  )
+  return res.json()
+}
+
+export async function discoverTVByProvider(
+  providerId: number,
+  page = 1
+): Promise<TMDBPaginatedResponse<TMDBTVShow>> {
+  const res = await fetch(
+    url('/discover/tv', {
+      with_watch_providers: providerId,
+      watch_region: 'FR',
+      sort_by: 'popularity.desc',
+      page,
+    }),
+    CACHE
+  )
+  return res.json()
+}

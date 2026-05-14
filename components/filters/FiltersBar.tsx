@@ -5,11 +5,17 @@ import { TMDB_GENRES } from '@/types/tmdb'
 
 const YEARS = Array.from({ length: 30 }, (_, i) => String(new Date().getFullYear() - i))
 
-const selectStyle = {
-  backgroundColor: '#1a1a1a',
-  borderColor: '#3f3f46',
-  color: '#ffffff',
-} as React.CSSProperties
+const selectStyle: React.CSSProperties = {
+  backgroundColor: '#0f0f0f',
+  border: '1px solid rgba(212,175,55,0.2)',
+  borderRadius: '2px',
+  color: '#666666',
+  fontSize: '11px',
+  letterSpacing: '0.05em',
+  padding: '5px 10px',
+  outline: 'none',
+  cursor: 'pointer',
+}
 
 export default function FiltersBar() {
   const router = useRouter()
@@ -31,27 +37,25 @@ export default function FiltersBar() {
   const currentYear = searchParams.get('year') ?? ''
 
   return (
-    <div className="flex flex-wrap gap-3 items-center">
+    <div className="flex flex-wrap gap-2 items-center">
       <select
         value={currentGenre}
         onChange={(e) => update('genre', e.target.value)}
-        className="border rounded-lg px-3 py-2 text-sm"
         style={selectStyle}
       >
-        <option value="">Tous les genres</option>
+        <option value="">TOUS LES GENRES</option>
         {TMDB_GENRES.map((g) => (
           <option key={g.id} value={String(g.id)}>
-            {g.name}
+            {g.name.toUpperCase()}
           </option>
         ))}
       </select>
       <select
         value={currentYear}
         onChange={(e) => update('year', e.target.value)}
-        className="border rounded-lg px-3 py-2 text-sm"
         style={selectStyle}
       >
-        <option value="">Toutes les années</option>
+        <option value="">TOUTES LES ANNÉES</option>
         {YEARS.map((y) => (
           <option key={y} value={y}>
             {y}
