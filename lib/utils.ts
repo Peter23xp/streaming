@@ -27,7 +27,7 @@ export function formatRuntime(minutes: number | undefined): string {
 }
 
 export function getImageUrl(path: string | null, size: string): string {
-  if (!path) return '/placeholder-poster.jpg'
+  if (!path) return '/placeholder-poster.svg'
   return `https://image.tmdb.org/t/p/${size}${path}`
 }
 
