@@ -25,8 +25,8 @@ export const VOSTFR_SERVERS: VidSrcServer[] = [
 export const VF_SERVERS: VidSrcServer[] = [
   {
     name: 'Source 1',
-    getMovieUrl: (id) => `https://vidsrc.xyz/embed/movie?tmdb=${id}&lang=fr`,
-    getTVUrl: (id, s, e) => `https://vidsrc.xyz/embed/tv?tmdb=${id}&season=${s}&episode=${e}&lang=fr`,
+    getMovieUrl: (id) => `https://autoembed.cc/embed/movie/${id}?lang=fr`,
+    getTVUrl: (id, s, e) => `https://autoembed.cc/embed/tv/${id}/${s}/${e}?lang=fr`,
   },
   {
     name: 'Source 2',
