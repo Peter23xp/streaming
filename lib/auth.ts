@@ -11,10 +11,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
-    Nodemailer({
-      server: process.env.EMAIL_SERVER!,
-      from: 'noreply@streamvf.com',
-    }),
+    ...(process.env.EMAIL_SERVER
+      ? [Nodemailer({ server: process.env.EMAIL_SERVER, from: 'noreply@streamvf.com' })]
+      : []),
   ],
   pages: {
     signIn: '/auth/signin',
