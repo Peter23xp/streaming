@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/', '/auth/'],
     },
-    sitemap: `${process.env.NEXTAUTH_URL ?? 'https://streamvf.vercel.app'}/sitemap.xml`,
+    sitemap: 'https://streaming.peterakilimali.site/sitemap.xml',
   }
 }

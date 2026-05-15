@@ -8,6 +8,7 @@ import CastRow from '@/components/media/CastRow'
 import MediaGrid from '@/components/media/MediaGrid'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import JsonLd from '@/components/seo/JsonLd'
 
 interface Props {
   params: Promise<{ id: string; slug: string }>
@@ -59,6 +60,22 @@ export default async function SeriesDetailPage({ params, searchParams }: Props) 
 
   return (
     <div style={{ marginTop: '-24px' }}>
+      <JsonLd data={{
+        '@context': 'https://schema.org',
+        '@type': 'TVSeries',
+        name: show.name,
+        description: show.overview?.slice(0, 300),
+        image: poster ? `https://image.tmdb.org/t/p/w500${show.poster_path}` : undefined,
+        datePublished: show.first_air_date,
+        aggregateRating: show.vote_average ? {
+          '@type': 'AggregateRating',
+          ratingValue: show.vote_average.toFixed(1),
+          ratingCount: show.vote_count,
+          bestRating: 10,
+        } : undefined,
+        genre: show.genres?.map((g: { name: string }) => g.name),
+        numberOfSeasons: show.number_of_seasons,
+      }} />
       {/* Player full width */}
       <div className="-mx-4">
         <VidSrcPlayer
@@ -87,7 +104,7 @@ export default async function SeriesDetailPage({ params, searchParams }: Props) 
                   border: '1px solid rgba(212,175,55,0.2)',
                 }}
               >
-                <Image src={poster} alt={show.name} fill className="object-cover" sizes="100px" />
+                <Image src={poster} alt={show.name} fill className="object-cover" sizes="100px" priority />
                 <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '3px', backgroundColor: '#d4af37' }} />
               </div>
             </div>

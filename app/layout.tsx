@@ -9,15 +9,30 @@ import { Suspense } from 'react'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://streaming.peterakilimali.site'),
   title: {
     default: 'StreamVF — Films et Séries en Streaming',
     template: '%s | StreamVF',
   },
   description: 'Regardez des milliers de films et séries en VF et VOSTFR gratuitement.',
+  keywords: ['streaming', 'films VF', 'séries VOSTFR', 'streaming gratuit', 'films en français'],
   openGraph: {
     siteName: 'StreamVF',
     type: 'website',
     locale: 'fr_FR',
+    url: 'https://streaming.peterakilimali.site',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@streamvf',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: 'https://streaming.peterakilimali.site',
   },
 }
 

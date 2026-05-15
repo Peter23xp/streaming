@@ -7,6 +7,7 @@ import CastRow from '@/components/media/CastRow'
 import MediaGrid from '@/components/media/MediaGrid'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import JsonLd from '@/components/seo/JsonLd'
 
 interface Props {
   params: Promise<{ id: string; slug: string }>
@@ -44,6 +45,21 @@ export default async function FilmDetailPage({ params }: Props) {
 
   return (
     <div style={{ marginTop: '-24px' }}>
+      <JsonLd data={{
+        '@context': 'https://schema.org',
+        '@type': 'Movie',
+        name: movie.title,
+        description: movie.overview?.slice(0, 300),
+        image: poster ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : undefined,
+        datePublished: movie.release_date,
+        aggregateRating: movie.vote_average ? {
+          '@type': 'AggregateRating',
+          ratingValue: movie.vote_average.toFixed(1),
+          ratingCount: movie.vote_count,
+          bestRating: 10,
+        } : undefined,
+        genre: movie.genres?.map((g: { name: string }) => g.name),
+      }} />
       {/* Player full width — flush with edges */}
       <div className="-mx-4">
         <VidSrcPlayer
@@ -71,7 +87,7 @@ export default async function FilmDetailPage({ params }: Props) {
                   border: '1px solid rgba(212,175,55,0.2)',
                 }}
               >
-                <Image src={poster} alt={movie.title} fill className="object-cover" sizes="100px" />
+                <Image src={poster} alt={movie.title} fill className="object-cover" sizes="100px" priority />
                 {/* Platform accent */}
                 <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '3px', backgroundColor: '#d4af37' }} />
               </div>
