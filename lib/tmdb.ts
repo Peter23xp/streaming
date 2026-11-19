@@ -50,7 +50,7 @@ export async function getTopRated(
 
 export async function getMovieDetail(id: number): Promise<TMDBMovie> {
   const res = await fetch(
-    url(`/movie/${id}`, { append_to_response: 'credits,videos,similar' }),
+    url(`/movie/${id}`, { append_to_response: 'credits,videos,similar', include_video_language: 'fr,en' }),
     CACHE
   )
   return res.json()
@@ -58,7 +58,7 @@ export async function getMovieDetail(id: number): Promise<TMDBMovie> {
 
 export async function getTVDetail(id: number): Promise<TMDBTVShow> {
   const res = await fetch(
-    url(`/tv/${id}`, { append_to_response: 'credits,videos,similar' }),
+    url(`/tv/${id}`, { append_to_response: 'credits,videos,similar', include_video_language: 'fr,en' }),
     CACHE
   )
   return res.json()

@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import type { SortKey } from '@/lib/tmdb'
+import type { TMDBVideo } from '@/types/tmdb'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -70,6 +71,14 @@ export function genreHref(genre: { id: number; name: string }): string {
 export function isReleased(item: { release_date?: string; first_air_date?: string }): boolean {
   const date = item.release_date || item.first_air_date
   return Boolean(date) && date! <= new Date().toISOString().slice(0, 10)
+}
+
+// Best YouTube trailer: French before English, trailer before teaser, official first.
+export function pickTrailer(videos: TMDBVideo[] | undefined): TMDBVideo | null {
+  const score = (v: TMDBVideo) =>
+    (v.iso_639_1 === 'fr' ? 4 : 0) + (v.type === 'Trailer' ? 2 : 0) + (v.official ? 1 : 0)
+  const candidates = (videos ?? []).filter((v) => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser'))
+  return candidates.sort((a, b) => score(b) - score(a))[0] ?? null
 }
 
 export function isVF(originalLanguage: string): boolean {

@@ -1,6 +1,7 @@
 import { getMovieDetail } from '@/lib/tmdb'
-import { formatRuntime, isReleased, isVF } from '@/lib/utils'
+import { formatRuntime, isReleased, isVF, pickTrailer } from '@/lib/utils'
 import VidSrcPlayer from '@/components/media/VidSrcPlayer'
+import Trailer from '@/components/media/Trailer'
 import ComingSoon from '@/components/media/ComingSoon'
 import MediaHeader from '@/components/media/MediaHeader'
 import CastRow from '@/components/media/CastRow'
@@ -35,6 +36,7 @@ export default async function FilmDetailPage({ params }: Props) {
   const year = movie.release_date?.slice(0, 4) ?? ''
   const backdrop = movie.backdrop_path ? `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}` : null
   const similar = movie.similar?.results?.filter(isReleased) ?? []
+  const trailer = pickTrailer(movie.videos?.results)
 
   return (
     <div className="-mt-6 space-y-10">
@@ -76,6 +78,8 @@ export default async function FilmDetailPage({ params }: Props) {
         overview={movie.overview}
         watchItem={{ id: movie.id, type: 'movie', title: movie.title, poster: movie.poster_path, year }}
       />
+
+      {trailer && <Trailer video={trailer} />}
 
       {movie.credits?.cast?.length ? <CastRow cast={movie.credits.cast} /> : null}
 

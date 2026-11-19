@@ -89,6 +89,8 @@ export interface TMDBVideo {
   name: string
   site: string
   type: string
+  iso_639_1?: string
+  official?: boolean
 }
 
 export interface TMDBPaginatedResponse<T> {

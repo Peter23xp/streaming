@@ -1,6 +1,7 @@
 import { getTVDetail, getTVSeason } from '@/lib/tmdb'
-import { isReleased, isVF, slugify } from '@/lib/utils'
+import { isReleased, isVF, pickTrailer, slugify } from '@/lib/utils'
 import VidSrcPlayer from '@/components/media/VidSrcPlayer'
+import Trailer from '@/components/media/Trailer'
 import MediaHeader from '@/components/media/MediaHeader'
 import EpisodeSelector from '@/components/media/EpisodeSelector'
 import CastRow from '@/components/media/CastRow'
@@ -43,6 +44,7 @@ export default async function SeriesDetailPage({ params, searchParams }: Props) 
   if (!show?.id) notFound()
 
   const year = show.first_air_date?.slice(0, 4) ?? ''
+  const trailer = pickTrailer(show.videos?.results)
   const episodeTitle = seasonData?.episodes?.find((e) => e.episode_number === currentEpisode)?.name ?? ''
   const playerTitle = episodeTitle
     ? `${show.name} — S${pad(currentSeason)}E${pad(currentEpisode)} · ${episodeTitle}`
@@ -105,6 +107,8 @@ export default async function SeriesDetailPage({ params, searchParams }: Props) 
           basePath={`/series/${show.id}/${slugify(show.name)}`}
         />
       )}
+
+      {trailer && <Trailer video={trailer} />}
 
       {show.credits?.cast?.length ? <CastRow cast={show.credits.cast} /> : null}
 
