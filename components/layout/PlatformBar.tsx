@@ -1,11 +1,19 @@
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
+import { LayoutGrid } from 'lucide-react'
 import { useSearchParams, usePathname } from 'next/navigation'
 import { PLATFORMS } from '@/lib/platforms'
 
 const PILLS = [
-  { key: 'all', label: 'Tout', color: '#d4af37', fg: '#000000' },
-  ...Object.entries(PLATFORMS).map(([key, p]) => ({ key, label: p.label, color: p.color, fg: p.fg })),
+  { key: 'all', label: 'Tout', color: '#d4af37', fg: '#000000', logo: null as string | null },
+  ...Object.entries(PLATFORMS).map(([key, p]) => ({
+    key,
+    label: p.label,
+    color: p.color,
+    fg: p.fg,
+    logo: p.logo as string | null,
+  })),
 ]
 
 export default function PlatformBar() {
@@ -30,19 +38,17 @@ export default function PlatformBar() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl">
-      <nav
-        aria-label="Plateformes"
-        className="scrollbar-hide flex gap-2 overflow-x-auto px-4 pb-3 pt-1 [mask-image:linear-gradient(to_right,transparent,black_16px,black_calc(100%-24px),transparent)] sm:px-6"
-      >
-        {PILLS.map(({ key, label, color, fg }) => {
+    <nav aria-label="Plateformes" className="scrollbar-hide overflow-x-auto px-4 pb-3 pt-1 sm:px-6">
+      {/* w-max + mx-auto: centered when it fits, horizontally scrollable when it overflows */}
+      <div className="mx-auto flex w-max gap-2">
+        {PILLS.map(({ key, label, color, fg, logo }) => {
           const isActive = activePlatform === key
           return (
             <Link
               key={key}
               href={hrefFor(key)}
               aria-current={isActive ? 'page' : undefined}
-              className={`group flex shrink-0 items-center gap-2 rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition duration-200 ${
+              className={`group flex shrink-0 items-center gap-2 rounded-full border py-1 pl-1 pr-3.5 text-[13px] font-medium transition duration-200 ${
                 isActive
                   ? 'border-transparent'
                   : 'border-white/10 bg-white/[0.03] text-muted hover:border-white/25 hover:bg-white/[0.07] hover:text-ink'
@@ -53,17 +59,29 @@ export default function PlatformBar() {
                   : undefined
               }
             >
-              {!isActive && (
-                <span
-                  className="size-2 rounded-full ring-2 ring-black/40 transition group-hover:scale-125"
-                  style={{ backgroundColor: color }}
+              {logo ? (
+                <Image
+                  src={`https://image.tmdb.org/t/p/w92${logo}`}
+                  alt=""
+                  width={24}
+                  height={24}
+                  unoptimized
+                  className="size-6 rounded-full object-cover ring-1 ring-black/30 transition group-hover:scale-110"
                 />
+              ) : (
+                <span
+                  className={`flex size-6 items-center justify-center rounded-full ${
+                    isActive ? 'bg-black/15' : 'bg-gold/15 text-gold'
+                  }`}
+                >
+                  <LayoutGrid size={13} />
+                </span>
               )}
               {label}
             </Link>
           )
         })}
-      </nav>
-    </div>
+      </div>
+    </nav>
   )
 }
