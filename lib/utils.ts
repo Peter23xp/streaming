@@ -43,22 +43,24 @@ export interface ListParams {
   genre?: string
   year?: string
   platform?: string
+  country?: string
   sort?: SortKey
-  page?: string
 }
 
 export function parseSort(value: string | undefined): SortKey {
   return SORT_OPTIONS.some((s) => s.key === value) ? (value as SortKey) : 'popular'
 }
 
-export function listHref(basePath: string, params: ListParams, page: number): string {
+export function listHref(basePath: string, params: ListParams, page = 1): string {
   const sp = new URLSearchParams()
   if (params.platform) sp.set('platform', params.platform)
   if (params.genre) sp.set('genre', params.genre)
+  if (params.country) sp.set('country', params.country)
   if (params.year) sp.set('year', params.year)
   if (params.sort && params.sort !== 'popular') sp.set('sort', params.sort)
-  sp.set('page', String(page))
-  return `${basePath}?${sp}`
+  if (page > 1) sp.set('page', String(page))
+  const qs = sp.toString()
+  return qs ? `${basePath}?${qs}` : basePath
 }
 
 export function genreHref(genre: { id: number; name: string }): string {

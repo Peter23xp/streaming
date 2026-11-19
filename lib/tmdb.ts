@@ -81,12 +81,13 @@ export interface DiscoverOptions {
   genre?: number
   year?: string
   provider?: number
+  country?: string
   sort?: SortKey
 }
 
 export async function discover<T extends 'movie' | 'tv'>(
   type: T,
-  { page = 1, genre, year, provider, sort = 'popular' }: DiscoverOptions = {}
+  { page = 1, genre, year, provider, country, sort = 'popular' }: DiscoverOptions = {}
 ): Promise<TMDBPaginatedResponse<T extends 'movie' ? TMDBMovie : TMDBTVShow>> {
   const isMovie = type === 'movie'
   const dateField = isMovie ? 'primary_release_date' : 'first_air_date'
@@ -107,6 +108,7 @@ export async function discover<T extends 'movie' | 'tv'>(
     params['vote_count.gte'] = 10
   }
   if (genre) params['with_genres'] = genre
+  if (country) params['with_origin_country'] = country
   if (year) params[isMovie ? 'primary_release_year' : 'first_air_date_year'] = year
   if (provider) {
     params['with_watch_providers'] = provider

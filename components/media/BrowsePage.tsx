@@ -4,6 +4,7 @@ import FiltersBar from '@/components/filters/FiltersBar'
 import SectionTitle from '@/components/ui/SectionTitle'
 import Pagination from '@/components/ui/Pagination'
 import { PLATFORMS, type PlatformKey } from '@/lib/platforms'
+import { COUNTRIES } from '@/lib/countries'
 import { listHref, parseSort, SORT_OPTIONS, type ListParams } from '@/lib/utils'
 import { TMDB_GENRES, TMDB_TV_GENRES } from '@/types/tmdb'
 
@@ -20,9 +21,11 @@ export default async function BrowsePage({ type, searchParams }: Props) {
   const platformKey =
     searchParams.platform && searchParams.platform in PLATFORMS ? (searchParams.platform as PlatformKey) : undefined
   const genre = genres.find((g) => String(g.id) === searchParams.genre)
+  const country = COUNTRIES.find((c) => c.code === searchParams.country)
   const params: ListParams = {
     platform: platformKey,
     genre: genre ? String(genre.id) : undefined,
+    country: country?.code,
     year: searchParams.year && /^\d{4}$/.test(searchParams.year) ? searchParams.year : undefined,
     sort: parseSort(searchParams.sort),
   }
@@ -31,12 +34,15 @@ export default async function BrowsePage({ type, searchParams }: Props) {
   const data = await discover(type, {
     page,
     genre: genre?.id,
+    country: country?.code,
     year: params.year,
     provider: platformKey ? PLATFORMS[platformKey].tmdbId : undefined,
     sort: params.sort,
   })
 
-  const title = [noun, genre?.name, platformKey && PLATFORMS[platformKey].label].filter(Boolean).join(' · ')
+  const title = [noun, genre?.name, country?.name, platformKey && PLATFORMS[platformKey].label]
+    .filter(Boolean)
+    .join(' · ')
   const sortLabel = SORT_OPTIONS.find((s) => s.key === params.sort)?.label
 
   return (

@@ -1,0 +1,18 @@
+export const COUNTRIES = [
+  { code: 'FR', name: 'France', flag: '🇫🇷' },
+  { code: 'US', name: 'États-Unis', flag: '🇺🇸' },
+  { code: 'GB', name: 'Royaume-Uni', flag: '🇬🇧' },
+  { code: 'BE', name: 'Belgique', flag: '🇧🇪' },
+  { code: 'CA', name: 'Canada', flag: '🇨🇦' },
+  { code: 'JP', name: 'Japon', flag: '🇯🇵' },
+  { code: 'KR', name: 'Corée du Sud', flag: '🇰🇷' },
+  { code: 'CN', name: 'Chine', flag: '🇨🇳' },
+  { code: 'IN', name: 'Inde', flag: '🇮🇳' },
+  { code: 'ES', name: 'Espagne', flag: '🇪🇸' },
+  { code: 'IT', name: 'Italie', flag: '🇮🇹' },
+  { code: 'DE', name: 'Allemagne', flag: '🇩🇪' },
+  { code: 'TR', name: 'Turquie', flag: '🇹🇷' },
+  { code: 'MX', name: 'Mexique', flag: '🇲🇽' },
+  { code: 'BR', name: 'Brésil', flag: '🇧🇷' },
+  { code: 'NG', name: 'Nigeria', flag: '🇳🇬' },
+] as const
