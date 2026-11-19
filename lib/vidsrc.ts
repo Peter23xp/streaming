@@ -25,13 +25,13 @@ export const VOSTFR_SERVERS: VidSrcServer[] = [
 export const VF_SERVERS: VidSrcServer[] = [
   {
     name: 'Source 1',
-    getMovieUrl: (id) => `https://autoembed.cc/embed/movie/${id}?lang=fr`,
-    getTVUrl: (id, s, e) => `https://autoembed.cc/embed/tv/${id}/${s}/${e}?lang=fr`,
+    getMovieUrl: (id) => `https://vidzy.org/movie/${id}`,
+    getTVUrl: (id, s, e) => `https://vidzy.org/serie/${id}/${s}/${e}`,
   },
   {
     name: 'Source 2',
-    getMovieUrl: (id) => `https://frembed.live/api/film.php?id=${id}`,
-    getTVUrl: (id, s, e) => `https://frembed.live/api/serie.php?id=${id}&sa=${s}&epi=${e}`,
+    getMovieUrl: (id) => `https://frembed.shop/embed/movie/${id}`,
+    getTVUrl: (id, s, e) => `https://frembed.shop/embed/serie/${id}?sa=${s}&epi=${e}`,
   },
   {
     name: 'Source 3',
