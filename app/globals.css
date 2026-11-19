@@ -1,24 +1,115 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #080808;
-  --color-surface: #0f0f0f;
-  --color-border: rgba(212,175,55,0.12);
+  --color-bg: #070709;
+  --color-surface: #101013;
+  --color-surface-2: #17171b;
+  --color-line: rgb(255 255 255 / 0.08);
   --color-gold: #d4af37;
-  --color-gold-dim: rgba(212,175,55,0.4);
-  --color-gold-hover: rgba(212,175,55,0.5);
-  --color-text: #cccccc;
-  --color-muted: #555555;
-  --font-sans: 'Inter', sans-serif;
+  --color-gold-light: #ecc94b;
+  --color-ink: #ededed;
+  --color-muted: #8b8b94;
+  --color-faint: #5c5c64;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+}
+
+html {
+  color-scheme: dark;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background-color: #080808;
-  color: #cccccc;
-  font-family: 'Inter', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
 }
 
+::selection {
+  background: rgb(212 175 55 / 0.35);
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+}
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+@utility chip {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid var(--color-line);
+  padding: 0.375rem 0.875rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  transition: color 150ms, border-color 150ms, background-color 150ms;
+  &:hover {
+    color: var(--color-ink);
+    border-color: rgb(212 175 55 / 0.45);
+  }
+}
+
+@utility chip-active {
+  border-color: var(--color-gold);
+  background-color: var(--color-gold);
+  color: #000;
+  font-weight: 600;
+  &:hover {
+    color: #000;
+    border-color: var(--color-gold);
+  }
+}
+
+@utility btn-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  background-color: var(--color-gold);
+  padding: 0.625rem 1.375rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #000;
+  transition: background-color 150ms, transform 150ms;
+  &:hover {
+    background-color: var(--color-gold-light);
+  }
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+@utility btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid var(--color-line);
+  background-color: rgb(255 255 255 / 0.05);
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-ink);
+  transition: border-color 150ms, background-color 150ms;
+  &:hover {
+    border-color: rgb(212 175 55 / 0.5);
+    background-color: rgb(255 255 255 / 0.08);
+  }
+}
+
+@utility field {
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-line);
+  background-color: var(--color-surface);
+  padding: 0.5rem 0.875rem;
+  font-size: 0.8125rem;
+  color: var(--color-ink);
+  outline: none;
+  transition: border-color 150ms;
+  &:focus {
+    border-color: rgb(212 175 55 / 0.6);
+  }
 }

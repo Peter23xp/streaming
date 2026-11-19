@@ -3,48 +3,53 @@ import Link from 'next/link'
 import { Play } from 'lucide-react'
 import { slugify, isVF } from '@/lib/utils'
 import WatchlistButton from '@/components/ui/WatchlistButton'
-import Badge from '@/components/ui/Badge'
-import StarRating from '@/components/ui/StarRating'
 import type { TMDBMovie } from '@/types/tmdb'
 
 export default function HeroBanner({ movie }: { movie: TMDBMovie }) {
-  const slug = slugify(movie.title ?? '')
-  const backdropUrl = movie.backdrop_path
-    ? `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`
-    : null
+  const href = `/films/${movie.id}/${slugify(movie.title ?? '')}`
 
   return (
-    <div className="relative w-full overflow-hidden rounded-xl" style={{ minHeight: 300, maxHeight: 500, aspectRatio: '21/9' }}>
-      {backdropUrl && (
-        <Image
-          src={backdropUrl}
-          alt={movie.title}
-          fill
-          className="object-cover"
-          priority
-          sizes="100vw"
-        />
-      )}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-      <div className="absolute bottom-0 left-0 p-6 md:p-10 space-y-3 max-w-xl">
-        <div className="flex items-center gap-2 flex-wrap">
-          <Badge variant={isVF(movie.original_language) ? 'vf' : 'vostfr'} />
-          <Badge variant="hd" />
-          <StarRating value={movie.vote_average} />
-          <span className="text-zinc-300 text-sm">{movie.release_date?.slice(0, 4)}</span>
+    <section className="relative -mx-4 -mt-6 overflow-hidden sm:mx-0 sm:mt-0 sm:rounded-2xl">
+      <div className="relative aspect-[4/5] w-full sm:aspect-[21/9]">
+        {movie.backdrop_path && (
+          <Image
+            src={`https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`}
+            alt={movie.title}
+            fill
+            sizes="(max-width: 1280px) 100vw, 1280px"
+            loading="eager"
+            fetchPriority="high"
+            className="object-cover"
+          />
+        )}
+        <div className="absolute inset-0 bg-linear-to-t from-bg via-bg/40 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-r from-bg/90 via-bg/30 to-transparent" />
+      </div>
+
+      <div className="absolute inset-x-0 bottom-0 max-w-2xl space-y-4 p-5 sm:p-10">
+        <div className="flex flex-wrap items-center gap-2 text-xs font-medium">
+          <span className="rounded-md bg-gold px-2 py-0.5 font-bold text-black">
+            {isVF(movie.original_language) ? 'VF' : 'VOSTFR'}
+          </span>
+          <span className="rounded-md border border-white/20 px-2 py-0.5 text-ink">HD</span>
+          {movie.vote_average > 0 && (
+            <span className="text-ink">
+              <span className="text-gold">★</span> {movie.vote_average.toFixed(1)}
+            </span>
+          )}
+          {movie.release_date && <span className="text-muted">{movie.release_date.slice(0, 4)}</span>}
         </div>
-        <h1 className="text-2xl md:text-4xl font-bold text-white leading-tight">{movie.title}</h1>
+        <h1 className="text-3xl font-bold leading-tight tracking-tight text-white sm:text-5xl">
+          {movie.title}
+        </h1>
         {movie.overview && (
-          <p className="text-zinc-300 text-sm md:text-base line-clamp-2">{movie.overview}</p>
+          <p className="line-clamp-2 text-sm leading-relaxed text-ink/80 sm:line-clamp-3 sm:text-base">
+            {movie.overview}
+          </p>
         )}
         <div className="flex flex-wrap gap-3 pt-1">
-          <Link
-            href={`/films/${movie.id}/${slug}`}
-            className="flex items-center gap-2 text-white px-5 py-2.5 rounded-lg font-medium transition hover:opacity-90"
-            style={{ backgroundColor: '#e50914' }}
-          >
-            <Play size={18} fill="white" /> Regarder
+          <Link href={href} className="btn-gold">
+            <Play size={16} fill="currentColor" /> Regarder
           </Link>
           <WatchlistButton
             item={{
@@ -57,6 +62,6 @@ export default function HeroBanner({ movie }: { movie: TMDBMovie }) {
           />
         </div>
       </div>
-    </div>
+    </section>
   )
 }

@@ -1,6 +1,6 @@
-'use client'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Play } from 'lucide-react'
 import { slugify, formatYear, isVF } from '@/lib/utils'
 import type { TMDBMovie, TMDBTVShow } from '@/types/tmdb'
 import { PLATFORMS, type PlatformKey } from '@/lib/platforms'
@@ -9,154 +9,67 @@ type MediaCardProps = {
   item: (TMDBMovie | TMDBTVShow) & { media_type?: 'movie' | 'tv' }
   type: 'movie' | 'tv'
   platform?: PlatformKey
+  sizes?: string
 }
 
-export default function MediaCard({ item, type, platform }: MediaCardProps) {
+export default function MediaCard({
+  item,
+  type,
+  platform,
+  sizes = '(max-width: 640px) 45vw, (max-width: 1024px) 23vw, 200px',
+}: MediaCardProps) {
   const isMovie = type === 'movie'
-  const movie = item as TMDBMovie
-  const show = item as TMDBTVShow
-  const title = isMovie ? (movie.title ?? '') : (show.name ?? '')
-  const date = isMovie ? movie.release_date : show.first_air_date
-  const slug = slugify(title)
-  const href = isMovie ? `/films/${item.id}/${slug}` : `/series/${item.id}/${slug}`
-  const poster = item.poster_path
-    ? `https://image.tmdb.org/t/p/w342${item.poster_path}`
-    : null
-
-  const accentColor = platform ? PLATFORMS[platform].color : '#d4af37'
-  const vfLabel = isVF(item.original_language) ? 'VF' : 'VOSTFR'
+  const title = isMovie ? ((item as TMDBMovie).title ?? '') : ((item as TMDBTVShow).name ?? '')
+  const date = isMovie ? (item as TMDBMovie).release_date : (item as TMDBTVShow).first_air_date
+  const href = `/${isMovie ? 'films' : 'series'}/${item.id}/${slugify(title)}`
   const rating = item.vote_average ? item.vote_average.toFixed(1) : null
 
   return (
-    <Link href={href} className="group block">
-      <div
-        className="relative overflow-hidden aspect-[2/3]"
-        style={{
-          backgroundColor: '#0f0f0f',
-          border: '1px solid rgba(212,175,55,0.10)',
-          borderRadius: '2px',
-          transition: 'border-color 200ms, box-shadow 200ms',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = 'rgba(212,175,55,0.5)'
-          e.currentTarget.style.boxShadow = '0 0 20px rgba(212,175,55,0.12)'
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = 'rgba(212,175,55,0.10)'
-          e.currentTarget.style.boxShadow = 'none'
-        }}
-      >
-        {/* Platform accent stripe */}
-        <div
-          style={{
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            bottom: 0,
-            width: '3px',
-            backgroundColor: accentColor,
-            zIndex: 2,
-          }}
-        />
-
-        {poster ? (
+    // Prefetch disabled: dozens of cards per page would flood the small server with background requests.
+    <Link href={href} prefetch={false} className="group block outline-none">
+      <div className="relative aspect-[2/3] overflow-hidden rounded-xl bg-surface ring-1 ring-line transition duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_14px_30px_-12px_rgba(212,175,55,0.45)] group-hover:ring-gold/60 group-focus-visible:ring-2 group-focus-visible:ring-gold">
+        {item.poster_path ? (
           <Image
-            src={poster}
+            src={`https://image.tmdb.org/t/p/w342${item.poster_path}`}
             alt={title}
             fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 16vw"
-            className="object-cover"
-            style={{ transition: 'transform 200ms' }}
+            sizes={sizes}
+            className="object-cover transition duration-500 group-hover:scale-105"
           />
         ) : (
-          <div
-            className="w-full h-full flex items-center justify-center"
-            style={{ color: '#333', fontSize: '11px' }}
-          >
-            NO IMAGE
+          <div className="flex h-full items-center justify-center p-3 text-center text-xs text-faint">
+            {title}
           </div>
         )}
 
-        {/* Hover overlay */}
-        <div
-          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100"
-          style={{
-            backgroundColor: 'rgba(0,0,0,0.55)',
-            transition: 'opacity 200ms',
-            zIndex: 3,
-          }}
-        >
-          <div
-            style={{
-              width: '36px',
-              height: '36px',
-              border: '1.5px solid #d4af37',
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#d4af37',
-              fontSize: '14px',
-            }}
-          >
-            ▶
-          </div>
-        </div>
+        <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-black/40 opacity-70 transition group-hover:opacity-100" />
 
-        {/* VF / VOSTFR badge */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '6px',
-            left: '8px',
-            zIndex: 4,
-            backgroundColor: 'rgba(0,0,0,0.85)',
-            color: '#d4af37',
-            fontSize: '8px',
-            fontWeight: 700,
-            letterSpacing: '0.05em',
-            padding: '2px 5px',
-            borderRadius: '1px',
-          }}
-        >
-          {vfLabel}
-        </div>
+        {platform && (
+          <span
+            className="absolute inset-x-0 top-0 h-0.5"
+            style={{ backgroundColor: PLATFORMS[platform].color }}
+          />
+        )}
 
-        {/* Rating badge */}
+        <span className="absolute left-2 top-2 rounded-md bg-black/75 px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-gold">
+          {isVF(item.original_language) ? 'VF' : 'VOSTFR'}
+        </span>
+
         {rating && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '6px',
-              right: '6px',
-              zIndex: 4,
-              backgroundColor: 'rgba(0,0,0,0.75)',
-              color: '#d4af37',
-              fontSize: '9px',
-              fontWeight: 700,
-              padding: '2px 5px',
-              borderRadius: '1px',
-              letterSpacing: '0.03em',
-            }}
-          >
-            ★ {rating}
-          </div>
+          <span className="absolute right-2 top-2 rounded-md bg-black/75 px-1.5 py-0.5 text-[10px] font-semibold text-ink">
+            <span className="text-gold">★</span> {rating}
+          </span>
         )}
+
+        <span className="absolute inset-0 m-auto flex size-12 scale-75 items-center justify-center rounded-full bg-gold text-black opacity-0 shadow-lg transition duration-300 group-hover:scale-100 group-hover:opacity-100">
+          <Play size={20} fill="currentColor" className="ml-0.5" />
+        </span>
       </div>
 
-      <p
-        className="mt-1.5 truncate"
-        style={{
-          color: '#cccccc',
-          fontSize: '11px',
-          fontWeight: 600,
-          letterSpacing: '0.05em',
-          textTransform: 'uppercase',
-        }}
-      >
+      <p className="mt-2 truncate text-sm font-medium text-ink transition group-hover:text-gold">
         {title}
       </p>
-      <p style={{ color: '#555555', fontSize: '10px' }}>{formatYear(date)}</p>
+      <p className="text-xs text-faint">{formatYear(date)}</p>
     </Link>
   )
 }

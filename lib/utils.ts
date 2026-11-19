@@ -31,6 +31,23 @@ export function getImageUrl(path: string | null, size: string): string {
   return `https://image.tmdb.org/t/p/${size}${path}`
 }
 
+export function listHref(
+  basePath: string,
+  params: { genre?: string; year?: string; platform?: string },
+  page: number
+): string {
+  const sp = new URLSearchParams()
+  if (params.genre) sp.set('genre', params.genre)
+  if (params.year) sp.set('year', params.year)
+  if (params.platform) sp.set('platform', params.platform)
+  sp.set('page', String(page))
+  return `${basePath}?${sp}`
+}
+
+export function genreHref(genre: { id: number; name: string }): string {
+  return `/genre/${genre.id}-${genre.name.toLowerCase().replace(/\s+/g, '-')}`
+}
+
 export function isVF(originalLanguage: string): boolean {
   return originalLanguage === 'fr'
 }

@@ -1,61 +1,44 @@
 'use client'
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
-import { useCallback } from 'react'
 import { TMDB_GENRES } from '@/types/tmdb'
 
 const YEARS = Array.from({ length: 30 }, (_, i) => String(new Date().getFullYear() - i))
-
-const selectStyle: React.CSSProperties = {
-  backgroundColor: '#0f0f0f',
-  border: '1px solid rgba(212,175,55,0.2)',
-  borderRadius: '2px',
-  color: '#666666',
-  fontSize: '11px',
-  letterSpacing: '0.05em',
-  padding: '5px 10px',
-  outline: 'none',
-  cursor: 'pointer',
-}
 
 export default function FiltersBar() {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  const update = useCallback(
-    (key: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString())
-      if (value) params.set(key, value)
-      else params.delete(key)
-      params.delete('page')
-      router.push(`${pathname}?${params.toString()}`)
-    },
-    [router, pathname, searchParams]
-  )
-
-  const currentGenre = searchParams.get('genre') ?? ''
-  const currentYear = searchParams.get('year') ?? ''
+  const update = (key: string, value: string) => {
+    const params = new URLSearchParams(searchParams.toString())
+    if (value) params.set(key, value)
+    else params.delete(key)
+    params.delete('page')
+    router.push(`${pathname}?${params}`)
+  }
 
   return (
-    <div className="flex flex-wrap gap-2 items-center">
+    <div className="flex flex-wrap items-center gap-2">
       <select
-        value={currentGenre}
+        aria-label="Genre"
+        value={searchParams.get('genre') ?? ''}
         onChange={(e) => update('genre', e.target.value)}
-        style={selectStyle}
+        className="field cursor-pointer"
       >
-        <option value="">TOUS LES GENRES</option>
+        <option value="">Tous les genres</option>
         {TMDB_GENRES.map((g) => (
           <option key={g.id} value={String(g.id)}>
-            {g.name.toUpperCase()}
+            {g.name}
           </option>
         ))}
       </select>
       <select
-        value={currentYear}
+        aria-label="Année"
+        value={searchParams.get('year') ?? ''}
         onChange={(e) => update('year', e.target.value)}
-        style={selectStyle}
+        className="field cursor-pointer"
       >
-        <option value="">TOUTES LES ANNÉES</option>
+        <option value="">Toutes les années</option>
         {YEARS.map((y) => (
           <option key={y} value={y}>
             {y}

@@ -1,6 +1,7 @@
 'use client'
 import { useWatchlistStore } from '@/store/watchlistStore'
 import MediaCard from '@/components/media/MediaCard'
+import SectionTitle from '@/components/ui/SectionTitle'
 import Link from 'next/link'
 import { Bookmark } from 'lucide-react'
 
@@ -9,20 +10,23 @@ export default function WatchlistPage() {
 
   if (items.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 gap-4 text-zinc-500">
-        <Bookmark size={48} />
-        <p className="text-lg">Votre liste est vide</p>
-        <Link href="/" className="text-sm hover:underline" style={{ color: '#e50914' }}>
-          Parcourir les films
+      <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
+        <div className="flex size-16 items-center justify-center rounded-full bg-surface-2 text-gold">
+          <Bookmark size={28} />
+        </div>
+        <p className="text-lg font-medium text-ink">Ta liste est vide</p>
+        <p className="text-sm text-muted">Ajoute des films et séries pour les retrouver ici.</p>
+        <Link href="/" className="btn-gold mt-2">
+          Parcourir le catalogue
         </Link>
       </div>
     )
   }
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Ma liste ({items.length})</h1>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+    <div className="space-y-8">
+      <SectionTitle as="h1" title={`Ma liste (${items.length})`} />
+      <div className="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {items.map((item) => (
           <MediaCard
             key={`${item.type}-${item.id}`}

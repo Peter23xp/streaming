@@ -1,52 +1,19 @@
 'use client'
+import { Check, Plus } from 'lucide-react'
 import { useWatchlistStore, type WatchlistItem } from '@/store/watchlistStore'
 
-interface Props {
-  item: WatchlistItem
-}
-
-export default function WatchlistButton({ item }: Props) {
-  const { has, add, remove } = useWatchlistStore()
-  const inList = has(item.id, item.type)
-
-  const toggle = () => {
-    if (inList) remove(item.id, item.type)
-    else add(item)
-  }
+export default function WatchlistButton({ item }: { item: WatchlistItem }) {
+  const inList = useWatchlistStore((s) => s.items.some((i) => i.id === item.id && i.type === item.type))
+  const add = useWatchlistStore((s) => s.add)
+  const remove = useWatchlistStore((s) => s.remove)
 
   return (
     <button
-      onClick={toggle}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '8px',
-        padding: '7px 16px',
-        borderRadius: '2px',
-        fontSize: '11px',
-        fontWeight: 700,
-        letterSpacing: '0.1em',
-        textTransform: 'uppercase',
-        cursor: 'pointer',
-        transition: 'all 150ms',
-        border: inList
-          ? '1px solid rgba(212,175,55,0.4)'
-          : '1px solid rgba(212,175,55,0.25)',
-        backgroundColor: inList ? 'rgba(212,175,55,0.08)' : 'transparent',
-        color: inList ? '#d4af37' : '#666',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = 'rgba(212,175,55,0.6)'
-        e.currentTarget.style.color = '#d4af37'
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = inList
-          ? 'rgba(212,175,55,0.4)'
-          : 'rgba(212,175,55,0.25)'
-        e.currentTarget.style.color = inList ? '#d4af37' : '#666'
-      }}
+      onClick={() => (inList ? remove(item.id, item.type) : add(item))}
+      aria-pressed={inList}
+      className={inList ? 'btn-ghost border-gold/50 text-gold' : 'btn-ghost'}
     >
-      <span style={{ fontSize: '14px', lineHeight: 1 }}>{inList ? '✓' : '+'}</span>
+      {inList ? <Check size={16} /> : <Plus size={16} />}
       {inList ? 'Dans ma liste' : 'Ma liste'}
     </button>
   )

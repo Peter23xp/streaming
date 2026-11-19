@@ -1,6 +1,6 @@
 'use client'
-import { useState, useEffect, useCallback } from 'react'
-import { Search } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Search, Loader2 } from 'lucide-react'
 import MediaCard from '@/components/media/MediaCard'
 
 interface SearchResult {
@@ -23,51 +23,55 @@ export default function RecherchePage() {
   const [results, setResults] = useState<SearchResult[]>([])
   const [loading, setLoading] = useState(false)
 
-  const search = useCallback(async (q: string) => {
-    if (!q.trim()) {
-      setResults([])
-      return
-    }
-    setLoading(true)
-    try {
-      const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`)
-      const data = await res.json()
-      setResults(
-        (data.results ?? []).filter(
-          (r: SearchResult) => r.media_type === 'movie' || r.media_type === 'tv'
-        )
-      )
-    } finally {
-      setLoading(false)
-    }
-  }, [])
-
   useEffect(() => {
-    const timer = setTimeout(() => search(query), 400)
-    return () => clearTimeout(timer)
-  }, [query, search])
+    const q = query.trim()
+    if (!q) return
+    const controller = new AbortController()
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`, { signal: controller.signal })
+        const data = await res.json()
+        setResults(
+          (data.results ?? []).filter((r: SearchResult) => r.media_type === 'movie' || r.media_type === 'tv')
+        )
+      } catch {
+        // aborted by a newer keystroke
+      } finally {
+        if (!controller.signal.aborted) setLoading(false)
+      }
+    }, 350)
+    return () => {
+      clearTimeout(timer)
+      controller.abort()
+    }
+  }, [query])
+
+  const hasQuery = query.trim().length > 0
+  const shown = hasQuery ? results : []
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Recherche</h1>
-      <div className="relative">
-        <Search
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500"
-          size={20}
-        />
+    <div className="space-y-8">
+      <div className="relative mx-auto max-w-2xl">
+        <Search className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-faint" size={20} />
         <input
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => {
+            setQuery(e.target.value)
+            setLoading(e.target.value.trim().length > 0)
+          }}
           placeholder="Rechercher un film ou une série…"
-          className="w-full border border-zinc-700 rounded-xl pl-10 pr-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-500 transition"
-          style={{ backgroundColor: '#1a1a1a' }}
+          aria-label="Rechercher"
+          className="w-full rounded-full border border-line bg-surface py-3.5 pl-12 pr-12 text-base text-ink placeholder:text-faint outline-none transition focus:border-gold/60"
           autoFocus
         />
+        {loading && (
+          <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 animate-spin text-gold" size={20} />
+        )}
       </div>
-      {loading && <p className="text-zinc-500 text-sm">Recherche en cours…</p>}
-      {results.length > 0 && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-          {results.map((r) => (
+
+      {shown.length > 0 && (
+        <div className="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+          {shown.map((r) => (
             <MediaCard
               key={`${r.media_type}-${r.id}`}
               item={{
@@ -88,10 +92,12 @@ export default function RecherchePage() {
           ))}
         </div>
       )}
-      {!loading && query && results.length === 0 && (
-        <p className="text-zinc-500 text-center py-12">
-          Aucun résultat pour &ldquo;{query}&rdquo;
-        </p>
+
+      {!loading && hasQuery && shown.length === 0 && (
+        <p className="py-12 text-center text-muted">Aucun résultat pour « {query} »</p>
+      )}
+      {!hasQuery && (
+        <p className="py-12 text-center text-sm text-faint">Tape le titre d&apos;un film ou d&apos;une série.</p>
       )}
     </div>
   )

@@ -2,13 +2,11 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'image.tmdb.org',
-        pathname: '/t/p/**',
-      },
-    ],
+    loader: 'custom',
+    loaderFile: './lib/tmdbImageLoader.ts',
+    // Match TMDB's hosted widths so each srcset only lists sizes that actually exist.
+    imageSizes: [185, 342],
+    deviceSizes: [500, 780, 1280],
   },
   async headers() {
     return [

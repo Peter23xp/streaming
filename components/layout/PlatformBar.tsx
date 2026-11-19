@@ -1,90 +1,69 @@
 'use client'
-import { useRouter, useSearchParams, usePathname } from 'next/navigation'
+import Link from 'next/link'
+import { useSearchParams, usePathname } from 'next/navigation'
 import { PLATFORMS } from '@/lib/platforms'
 
-const ALL_PILL = { key: 'all', label: 'TOUT' }
+const PILLS = [
+  { key: 'all', label: 'Tout', color: '#d4af37', fg: '#000000' },
+  ...Object.entries(PLATFORMS).map(([key, p]) => ({ key, label: p.label, color: p.color, fg: p.fg })),
+]
 
 export default function PlatformBar() {
-  const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  // On detail pages, platform filter has no meaning — redirect to list page instead
-  const isDetailPage =
-    /^\/films\/\d+/.test(pathname) || /^\/series\/\d+/.test(pathname)
+  const isDetailPage = /^\/(films|series)\/\d+/.test(pathname)
+  const isBrowsePage = pathname === '/' || pathname === '/films' || pathname === '/series'
+  if (!isBrowsePage && !isDetailPage) return null
 
+  // On a detail page the filter applies to the matching list page instead.
+  const targetPath = isDetailPage ? pathname.replace(/^\/(films|series).*/, '/$1') : pathname
   const activePlatform = isDetailPage ? 'all' : (searchParams.get('platform') ?? 'all')
 
-  const getListPath = () => {
-    if (/^\/films/.test(pathname)) return '/films'
-    if (/^\/series/.test(pathname)) return '/series'
-    return pathname
-  }
-
-  const setPlatform = (key: string) => {
-    const targetPath = isDetailPage ? getListPath() : pathname
+  const hrefFor = (key: string) => {
     const params = new URLSearchParams(isDetailPage ? '' : searchParams.toString())
-    if (key === 'all') {
-      params.delete('platform')
-    } else {
-      params.set('platform', key)
-    }
+    if (key === 'all') params.delete('platform')
+    else params.set('platform', key)
     params.delete('page')
     const qs = params.toString()
-    router.push(qs ? `${targetPath}?${qs}` : targetPath)
+    return qs ? `${targetPath}?${qs}` : targetPath
   }
 
-  const pills = [
-    ALL_PILL,
-    ...Object.entries(PLATFORMS).map(([key, val]) => ({ key, label: val.label })),
-  ]
-
   return (
-    <div
-      style={{
-        backgroundColor: 'rgba(8,8,8,0.95)',
-        backdropFilter: 'blur(8px)',
-        borderBottom: '1px solid rgba(212,175,55,0.08)',
-        position: 'sticky',
-        top: '56px',
-        zIndex: 40,
-      }}
-    >
-      <div
-        className="max-w-7xl mx-auto scrollbar-hide"
-        style={{ padding: '8px 16px', display: 'flex', gap: '8px', overflowX: 'auto' }}
+    <div className="mx-auto max-w-7xl">
+      <nav
+        aria-label="Plateformes"
+        className="scrollbar-hide flex gap-2 overflow-x-auto px-4 pb-3 pt-1 [mask-image:linear-gradient(to_right,transparent,black_16px,black_calc(100%-24px),transparent)] sm:px-6"
       >
-        {pills.map(({ key, label }) => {
+        {PILLS.map(({ key, label, color, fg }) => {
           const isActive = activePlatform === key
           return (
-            <button
+            <Link
               key={key}
-              onClick={() => setPlatform(key)}
-              style={{
-                flexShrink: 0,
-                fontSize: '10px',
-                fontWeight: isActive ? 700 : 500,
-                letterSpacing: '0.08em',
-                padding: '4px 12px',
-                borderRadius: '2px',
-                border: isActive ? 'none' : '1px solid rgba(212,175,55,0.2)',
-                backgroundColor: isActive ? '#d4af37' : 'transparent',
-                color: isActive ? '#000000' : '#666666',
-                cursor: 'pointer',
-                transition: 'all 150ms',
-              }}
-              onMouseEnter={(e) => {
-                if (!isActive) e.currentTarget.style.color = '#999999'
-              }}
-              onMouseLeave={(e) => {
-                if (!isActive) e.currentTarget.style.color = '#666666'
-              }}
+              href={hrefFor(key)}
+              aria-current={isActive ? 'page' : undefined}
+              className={`group flex shrink-0 items-center gap-2 rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition duration-200 ${
+                isActive
+                  ? 'border-transparent'
+                  : 'border-white/10 bg-white/[0.03] text-muted hover:border-white/25 hover:bg-white/[0.07] hover:text-ink'
+              }`}
+              style={
+                isActive
+                  ? { backgroundColor: color, color: fg, boxShadow: `0 8px 24px -10px ${color}` }
+                  : undefined
+              }
             >
+              {!isActive && (
+                <span
+                  className="size-2 rounded-full ring-2 ring-black/40 transition group-hover:scale-125"
+                  style={{ backgroundColor: color }}
+                />
+              )}
               {label}
-            </button>
+            </Link>
           )
         })}
-      </div>
+      </nav>
     </div>
   )
 }
