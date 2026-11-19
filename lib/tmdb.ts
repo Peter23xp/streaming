@@ -101,12 +101,18 @@ export async function discover<T extends 'movie' | 'tv'>(
       az: isMovie ? 'title.asc' : 'name.asc',
     }[sort],
   }
+  const today = new Date().toISOString().slice(0, 10)
+  params[`${dateField}.lte`] = today
+  if (isMovie) {
+    // Only movies with a digital (4), physical (5) or TV (6) release in France,
+    // i.e. actually watchable; drops cinema-only and upcoming titles.
+    params['region'] = 'FR'
+    params['with_release_type'] = '4|5|6'
+    params['release_date.lte'] = today
+  }
   // Without a vote floor, rating/date sorts surface obscure titles with 1-2 votes.
   if (sort === 'top') params['vote_count.gte'] = isMovie ? 1000 : 300
-  if (sort === 'recent') {
-    params[`${dateField}.lte`] = new Date().toISOString().slice(0, 10)
-    params['vote_count.gte'] = 10
-  }
+  if (sort === 'recent') params['vote_count.gte'] = 10
   if (genre) params['with_genres'] = genre
   if (country) params['with_origin_country'] = country
   if (year) params[isMovie ? 'primary_release_year' : 'first_air_date_year'] = year

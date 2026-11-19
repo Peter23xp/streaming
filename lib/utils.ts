@@ -67,6 +67,11 @@ export function genreHref(genre: { id: number; name: string }): string {
   return `/genre/${genre.id}-${genre.name.toLowerCase().replace(/\s+/g, '-')}`
 }
 
+export function isReleased(item: { release_date?: string; first_air_date?: string }): boolean {
+  const date = item.release_date || item.first_air_date
+  return Boolean(date) && date! <= new Date().toISOString().slice(0, 10)
+}
+
 export function isVF(originalLanguage: string): boolean {
   return originalLanguage === 'fr'
 }

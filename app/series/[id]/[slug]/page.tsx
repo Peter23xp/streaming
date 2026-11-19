@@ -1,5 +1,5 @@
 import { getTVDetail, getTVSeason } from '@/lib/tmdb'
-import { isVF, slugify } from '@/lib/utils'
+import { isReleased, isVF, slugify } from '@/lib/utils'
 import VidSrcPlayer from '@/components/media/VidSrcPlayer'
 import MediaHeader from '@/components/media/MediaHeader'
 import EpisodeSelector from '@/components/media/EpisodeSelector'
@@ -108,12 +108,12 @@ export default async function SeriesDetailPage({ params, searchParams }: Props) 
 
       {show.credits?.cast?.length ? <CastRow cast={show.credits.cast} /> : null}
 
-      {show.similar?.results?.length ? (
+      {(show.similar?.results?.filter(isReleased).length ?? 0) > 0 && (
         <section className="space-y-4">
           <SectionTitle title="Séries similaires" />
-          <MediaGrid items={show.similar.results.slice(0, 12)} type="tv" />
+          <MediaGrid items={show.similar!.results.filter(isReleased).slice(0, 12)} type="tv" />
         </section>
-      ) : null}
+      )}
     </div>
   )
 }

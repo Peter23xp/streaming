@@ -1,6 +1,7 @@
 import { getMovieDetail } from '@/lib/tmdb'
-import { formatRuntime, isVF } from '@/lib/utils'
+import { formatRuntime, isReleased, isVF } from '@/lib/utils'
 import VidSrcPlayer from '@/components/media/VidSrcPlayer'
+import ComingSoon from '@/components/media/ComingSoon'
 import MediaHeader from '@/components/media/MediaHeader'
 import CastRow from '@/components/media/CastRow'
 import MediaGrid from '@/components/media/MediaGrid'
@@ -32,6 +33,8 @@ export default async function FilmDetailPage({ params }: Props) {
   if (!movie?.id) notFound()
 
   const year = movie.release_date?.slice(0, 4) ?? ''
+  const backdrop = movie.backdrop_path ? `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}` : null
+  const similar = movie.similar?.results?.filter(isReleased) ?? []
 
   return (
     <div className="-mt-6 space-y-10">
@@ -56,12 +59,11 @@ export default async function FilmDetailPage({ params }: Props) {
       />
 
       <div className="-mx-4 sm:-mx-6">
-        <VidSrcPlayer
-          type="movie"
-          tmdbId={movie.id}
-          backdrop={movie.backdrop_path ? `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}` : null}
-          title={movie.title}
-        />
+        {isReleased(movie) ? (
+          <VidSrcPlayer type="movie" tmdbId={movie.id} backdrop={backdrop} title={movie.title} />
+        ) : (
+          <ComingSoon backdrop={backdrop} date={movie.release_date} />
+        )}
       </div>
 
       <MediaHeader
@@ -77,12 +79,12 @@ export default async function FilmDetailPage({ params }: Props) {
 
       {movie.credits?.cast?.length ? <CastRow cast={movie.credits.cast} /> : null}
 
-      {movie.similar?.results?.length ? (
+      {similar.length > 0 && (
         <section className="space-y-4">
           <SectionTitle title="Films similaires" />
-          <MediaGrid items={movie.similar.results.slice(0, 12)} type="movie" />
+          <MediaGrid items={similar.slice(0, 12)} type="movie" />
         </section>
-      ) : null}
+      )}
     </div>
   )
 }

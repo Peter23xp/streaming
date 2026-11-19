@@ -1,10 +1,4 @@
-import {
-  getTrending,
-  getPopular,
-  getNowPlaying,
-  getTopRated,
-  discover,
-} from '@/lib/tmdb'
+import { discover } from '@/lib/tmdb'
 import MediaCarousel from '@/components/media/MediaCarousel'
 import HeroBanner from '@/components/media/HeroBanner'
 import SectionTitle from '@/components/ui/SectionTitle'
@@ -56,22 +50,22 @@ export default async function HomePage({ searchParams }: Props) {
     )
   }
 
-  const [trending, popularTV, nowPlaying, topRated] = await Promise.all([
-    getTrending('movie', 'week'),
-    getPopular('tv'),
-    getNowPlaying(),
-    getTopRated('movie'),
+  const [popular, recent, popularTV, topRated] = await Promise.all([
+    discover('movie', { sort: 'popular' }),
+    discover('movie', { sort: 'recent' }),
+    discover('tv', { sort: 'popular' }),
+    discover('movie', { sort: 'top' }),
   ])
 
-  const hero = trending.results?.find((m) => m.backdrop_path && m.overview)
+  const hero = popular.results?.find((m) => m.backdrop_path && m.overview)
 
   return (
     <div className="space-y-12">
       {hero && <HeroBanner movie={hero} />}
-      <MediaCarousel title="Tendances de la semaine" items={trending.results} type="movie" viewAllHref="/films" />
-      <MediaCarousel title="Nouveautés au cinéma" items={nowPlaying.results} type="movie" viewAllHref="/films" />
+      <MediaCarousel title="Populaires en ce moment" items={popular.results} type="movie" viewAllHref="/films" />
+      <MediaCarousel title="Nouveautés en streaming" items={recent.results} type="movie" viewAllHref="/films?sort=recent" />
       <MediaCarousel title="Séries populaires" items={popularTV.results} type="tv" viewAllHref="/series" />
-      <MediaCarousel title="Les mieux notés" items={topRated.results} type="movie" viewAllHref="/films" />
+      <MediaCarousel title="Les mieux notés" items={topRated.results} type="movie" viewAllHref="/films?sort=top" />
 
       <section className="space-y-4">
         <SectionTitle title="Parcourir par genre" />
