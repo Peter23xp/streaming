@@ -3,8 +3,7 @@ import {
   getPopular,
   getNowPlaying,
   getTopRated,
-  discoverMoviesByProvider,
-  discoverTVByProvider,
+  discover,
 } from '@/lib/tmdb'
 import MediaCarousel from '@/components/media/MediaCarousel'
 import HeroBanner from '@/components/media/HeroBanner'
@@ -34,8 +33,8 @@ export default async function HomePage({ searchParams }: Props) {
   if (platformKey) {
     const platform = PLATFORMS[platformKey]
     const [movies, shows] = await Promise.all([
-      discoverMoviesByProvider(platform.tmdbId),
-      discoverTVByProvider(platform.tmdbId),
+      discover('movie', { provider: platform.tmdbId }),
+      discover('tv', { provider: platform.tmdbId }),
     ])
     return (
       <div className="space-y-12">

@@ -3,7 +3,6 @@ import type {
   TMDBTVShow,
   TMDBPaginatedResponse,
   TMDBSeason,
-  DiscoverFilters,
 } from '@/types/tmdb'
 
 const BASE = process.env.TMDB_BASE_URL!
@@ -75,48 +74,45 @@ export async function searchMulti(query: string, page = 1) {
   return res.json()
 }
 
-export async function discoverByGenre(
-  type: 'movie' | 'tv',
-  genreId: number,
-  filters: DiscoverFilters = {}
-): Promise<TMDBPaginatedResponse<TMDBMovie & TMDBTVShow>> {
+export type SortKey = 'popular' | 'top' | 'recent' | 'az'
+
+export interface DiscoverOptions {
+  page?: number
+  genre?: number
+  year?: string
+  provider?: number
+  sort?: SortKey
+}
+
+export async function discover<T extends 'movie' | 'tv'>(
+  type: T,
+  { page = 1, genre, year, provider, sort = 'popular' }: DiscoverOptions = {}
+): Promise<TMDBPaginatedResponse<T extends 'movie' ? TMDBMovie : TMDBTVShow>> {
+  const isMovie = type === 'movie'
+  const dateField = isMovie ? 'primary_release_date' : 'first_air_date'
   const params: Record<string, string | number> = {
-    with_genres: genreId,
-    sort_by: filters.sort_by ?? 'popularity.desc',
-    page: filters.page ?? 1,
+    page,
+    include_adult: 'false',
+    sort_by: {
+      popular: 'popularity.desc',
+      top: 'vote_average.desc',
+      recent: `${dateField}.desc`,
+      az: isMovie ? 'title.asc' : 'name.asc',
+    }[sort],
   }
-  if (filters.year) params['primary_release_year'] = filters.year
-  if (filters.with_origin_country) params['with_origin_country'] = filters.with_origin_country
+  // Without a vote floor, rating/date sorts surface obscure titles with 1-2 votes.
+  if (sort === 'top') params['vote_count.gte'] = isMovie ? 1000 : 300
+  if (sort === 'recent') {
+    params[`${dateField}.lte`] = new Date().toISOString().slice(0, 10)
+    params['vote_count.gte'] = 10
+  }
+  if (genre) params['with_genres'] = genre
+  if (year) params[isMovie ? 'primary_release_year' : 'first_air_date_year'] = year
+  if (provider) {
+    params['with_watch_providers'] = provider
+    params['watch_region'] = 'FR'
+  }
   const res = await fetch(url(`/discover/${type}`, params), CACHE)
-  return res.json()
-}
-
-export async function discoverMovies(
-  filters: DiscoverFilters = {}
-): Promise<TMDBPaginatedResponse<TMDBMovie>> {
-  const params: Record<string, string | number> = {
-    sort_by: filters.sort_by ?? 'popularity.desc',
-    page: filters.page ?? 1,
-  }
-  if (filters.with_genres) params['with_genres'] = filters.with_genres
-  if (filters.year) params['primary_release_year'] = filters.year
-  if (filters.with_origin_country) params['with_origin_country'] = filters.with_origin_country
-  const res = await fetch(url('/discover/movie', params), CACHE)
-  return res.json()
-}
-
-export async function discoverTV(
-  filters: DiscoverFilters = {}
-): Promise<TMDBPaginatedResponse<TMDBTVShow>> {
-  const params: Record<string, string | number> = {
-    sort_by: filters.sort_by ?? 'popularity.desc',
-    page: filters.page ?? 1,
-  }
-  if (filters.with_genres) params['with_genres'] = filters.with_genres
-  if (filters.year) params['first_air_date_year'] = filters.year
-  if (filters.with_origin_country) params['with_origin_country'] = filters.with_origin_country
-  if (filters.status) params['with_status'] = filters.status
-  const res = await fetch(url('/discover/tv', params), CACHE)
   return res.json()
 }
 
@@ -124,37 +120,5 @@ export async function getGenres(
   type: 'movie' | 'tv'
 ): Promise<{ genres: { id: number; name: string }[] }> {
   const res = await fetch(url(`/genre/${type}/list`), CACHE)
-  return res.json()
-}
-
-export async function discoverMoviesByProvider(
-  providerId: number,
-  page = 1
-): Promise<TMDBPaginatedResponse<TMDBMovie>> {
-  const res = await fetch(
-    url('/discover/movie', {
-      with_watch_providers: providerId,
-      watch_region: 'FR',
-      sort_by: 'popularity.desc',
-      page,
-    }),
-    CACHE
-  )
-  return res.json()
-}
-
-export async function discoverTVByProvider(
-  providerId: number,
-  page = 1
-): Promise<TMDBPaginatedResponse<TMDBTVShow>> {
-  const res = await fetch(
-    url('/discover/tv', {
-      with_watch_providers: providerId,
-      watch_region: 'FR',
-      sort_by: 'popularity.desc',
-      page,
-    }),
-    CACHE
-  )
   return res.json()
 }

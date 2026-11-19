@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import type { SortKey } from '@/lib/tmdb'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -31,15 +32,31 @@ export function getImageUrl(path: string | null, size: string): string {
   return `https://image.tmdb.org/t/p/${size}${path}`
 }
 
-export function listHref(
-  basePath: string,
-  params: { genre?: string; year?: string; platform?: string },
-  page: number
-): string {
+export const SORT_OPTIONS: { key: SortKey; label: string }[] = [
+  { key: 'popular', label: 'Populaires' },
+  { key: 'top', label: 'Mieux notés' },
+  { key: 'recent', label: 'Nouveautés' },
+  { key: 'az', label: 'A → Z' },
+]
+
+export interface ListParams {
+  genre?: string
+  year?: string
+  platform?: string
+  sort?: SortKey
+  page?: string
+}
+
+export function parseSort(value: string | undefined): SortKey {
+  return SORT_OPTIONS.some((s) => s.key === value) ? (value as SortKey) : 'popular'
+}
+
+export function listHref(basePath: string, params: ListParams, page: number): string {
   const sp = new URLSearchParams()
+  if (params.platform) sp.set('platform', params.platform)
   if (params.genre) sp.set('genre', params.genre)
   if (params.year) sp.set('year', params.year)
-  if (params.platform) sp.set('platform', params.platform)
+  if (params.sort && params.sort !== 'popular') sp.set('sort', params.sort)
   sp.set('page', String(page))
   return `${basePath}?${sp}`
 }
